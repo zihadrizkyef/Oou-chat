@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "530978950703",
+    "firebase_url": "https://through-980bb.firebaseio.com",
+    "project_id": "through-980bb",
+    "storage_bucket": "through-980bb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530978950703:android:95f4038c23ecb79c",
+        "android_client_info": {
+          "package_name": "com.zihadrizkyef.through"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530978950703-35qckg6avnqbrf0uvfa2gdep757n5aps.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBInB8PpUX8xurrbKYg-ZOtPi-qhbekMOg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_back1"
+    tools:context="com.zihadrizkyef.oou.Activity_ChatRoom"
+    tools:ignore="ContentDescription">
+
+    <LinearLayout
+        android:id="@+id/lyTextInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true">
+        <EditText
+            android:id="@+id/etTextInput"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:maxHeight="130dp"
+            android:background="#FFF"
+            android:inputType="text|textCapSentences"/>
+
+        <ImageButton
+            android:id="@+id/ibTextSend"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:scaleType="fitEnd"
+            android:background="#88F"
+            android:src="@android:drawable/ic_menu_send"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvChat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/lyTextInput"/>
+
+</RelativeLayout>

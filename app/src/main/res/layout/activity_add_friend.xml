@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/bg_back1"
+    tools:context="com.zihadrizkyef.oou.Activity_AddFriend">
+
+    <android.support.v7.widget.SearchView
+        android:id="@+id/svIDSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:iconifiedByDefault="false"
+        android:queryHint="ID or username to seach"
+        app:iconifiedByDefault="false"
+        app:queryHint="ID or username to seach"
+        app:defaultQueryHint="ID or username to seach"/>
+
+    <LinearLayout
+        android:id="@+id/lyProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civPicture"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_profile_picture"/>
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btAddFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add as Friend"/>
+
+        <TextView
+            android:id="@+id/tvCantAddFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="You can't add yourself as friend"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
