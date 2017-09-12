@@ -94,7 +94,6 @@
                 android:id="@+id/tvSignIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#5050EE"
                 android:text="Sign In"/>
         </LinearLayout>
 

@@ -1,7 +1,8 @@
 package com.zihadrizkyef.oou;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,8 +13,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zihadrizkyef.oou.helper.ApiHelper;
-import com.zihadrizkyef.oou.helper.OouApiClient;
 import com.zihadrizkyef.oou.helper.DatabaseUserProfile;
+import com.zihadrizkyef.oou.helper.OouApiClient;
 import com.zihadrizkyef.oou.model.AddFriend;
 import com.zihadrizkyef.oou.model.UserProfile;
 
@@ -25,6 +26,7 @@ import retrofit2.Response;
 public class Activity_AddFriend extends AppCompatActivity {
     OouApiClient apiClient;
     UserProfile userToAdd;
+    int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,10 @@ public class Activity_AddFriend extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         apiClient = ApiHelper.getApiClient();
+
+        String shrPrfName = getString(R.string.shared_pref_name);
+        SharedPreferences sharedPreferences = getSharedPreferences(shrPrfName, MODE_PRIVATE);
+        userId = sharedPreferences.getInt("id", -1);
 
         final LinearLayout lyProfile = (LinearLayout) findViewById(R.id.lyProfile);
         final CircleImageView civPicture = (CircleImageView) findViewById(R.id.civPicture);
@@ -58,7 +64,7 @@ public class Activity_AddFriend extends AppCompatActivity {
                                     .load(ApiHelper.API_BASE_URL+userToAdd.getImageUrl())
                                     .into(civPicture);
                             tvName.setText(userToAdd.getName());
-                            if (userToAdd.getId() == Activity_Main.profileId) {
+                            if (userToAdd.getId() == userId) {
                                 tvCantAddFriend.setVisibility(View.VISIBLE);
                                 btAddFriend.setVisibility(View.GONE);
                             } else {
@@ -89,7 +95,7 @@ public class Activity_AddFriend extends AppCompatActivity {
         btAddFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                apiClient.addFriend(Activity_Main.profileId, userToAdd.getId()).enqueue(new Callback<AddFriend>() {
+                apiClient.addFriend(userId, userToAdd.getId()).enqueue(new Callback<AddFriend>() {
                     @Override
                     public void onResponse(Call<AddFriend> call, Response<AddFriend> response) {
                         if (response.isSuccessful()) {

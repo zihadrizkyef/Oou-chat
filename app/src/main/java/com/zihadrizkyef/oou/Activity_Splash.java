@@ -2,9 +2,9 @@ package com.zihadrizkyef.oou;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 public class Activity_Splash extends AppCompatActivity {
     @Override

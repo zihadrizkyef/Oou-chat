@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "530978950703",
-    "firebase_url": "https://through-980bb.firebaseio.com",
-    "project_id": "through-980bb",
-    "storage_bucket": "through-980bb.appspot.com"
+    "project_number": "635379797788",
+    "firebase_url": "https://chat-oou.firebaseio.com",
+    "project_id": "chat-oou",
+    "storage_bucket": "chat-oou.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:530978950703:android:95f4038c23ecb79c",
+        "mobilesdk_app_id": "1:635379797788:android:de25eefbcac32fae",
         "android_client_info": {
-          "package_name": "com.zihadrizkyef.through"
+          "package_name": "com.zihadrizkyef.oou"
         }
       },
       "oauth_client": [
         {
-          "client_id": "530978950703-35qckg6avnqbrf0uvfa2gdep757n5aps.apps.googleusercontent.com",
+          "client_id": "635379797788-8ad84jvoc6099a9rjq577gtc2c6o3o67.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBInB8PpUX8xurrbKYg-ZOtPi-qhbekMOg"
+          "current_key": "AIzaSyAp9ccDrW6mITFeWumJP74tnSV_tmiwnHo"
         }
       ],
       "services": {

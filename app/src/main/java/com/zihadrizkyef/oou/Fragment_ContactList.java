@@ -1,5 +1,6 @@
 package com.zihadrizkyef.oou;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
  * Created by zihadrizkyef on 05/07/17.
@@ -32,12 +35,18 @@ public class Fragment_ContactList extends Fragment {
     RVAContactList rvaContactList;
     OouApiClient apiClient;
 
+    int userId;
+
     ProgressBar pbLoading;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_contact_list, container, false);
+
+        String shrPrfName = getString(R.string.shared_pref_name);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(shrPrfName, MODE_PRIVATE);
+        userId = sharedPreferences.getInt("id", -1);
 
         final DatabaseUserProfile db = new DatabaseUserProfile(getActivity());
         List<UserProfile> userProfiles = db.getAllUserProfiles();
@@ -61,7 +70,7 @@ public class Fragment_ContactList extends Fragment {
 
         showProgress(true);
         final DatabaseUserProfile db = new DatabaseUserProfile(getActivity());
-        apiClient.friendList(Activity_Main.profileId).enqueue(new Callback<List<UserProfile>>() {
+        apiClient.friendList(userId).enqueue(new Callback<List<UserProfile>>() {
             @Override
             public void onResponse(Call<List<UserProfile>> call, Response<List<UserProfile>> response) {
                 showProgress(false);

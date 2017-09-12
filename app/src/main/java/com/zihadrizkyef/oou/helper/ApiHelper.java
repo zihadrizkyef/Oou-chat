@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class ApiHelper {
-    public static String API_BASE_URL = "http://192.168.102.27/OouAPI/";
+    public static String API_BASE_URL = "http://192.168.100.24/OouAPI/";
     public static OouApiClient getApiClient() {
         Interceptor interceptor = new Interceptor() {
             @Override

@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserProfile{
 
-	@SerializedName("imageUrl")
-	private String imageUrl;
+    @SerializedName("image_url")
+    private String imageUrl;
 
 	@SerializedName("name")
 	private String name;
@@ -27,45 +27,45 @@ public class UserProfile{
 		this.imageUrl = imageUrl;
 	}
 
-	public void setImageUrl(String imageUrl){
-		this.imageUrl = imageUrl;
-	}
-
 	public String getImageUrl(){
 		return imageUrl;
 	}
 
-	public void setName(String name){
-		this.name = name;
-	}
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
 	public String getName(){
 		return name;
 	}
 
-	public void setBio(String bio){
-		this.bio = bio;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
 	public String getBio(){
 		return bio;
 	}
 
-	public void setId(int id){
-		this.id = id;
-	}
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 
 	public int getId(){
 		return id;
 	}
 
-	public void setUsername(String username){
-		this.username = username;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
 	public String getUsername(){
 		return username;
-	}
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
 	@Override
  	public String toString(){

@@ -2,14 +2,12 @@ package com.zihadrizkyef.oou;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -19,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Activity_Main extends AppCompatActivity {
-    public static int profileId=0;
+    private int profileId = 0;
 
     private ViewPager mViewPager;
     private Menu menu;
@@ -35,7 +33,6 @@ public class Activity_Main extends AppCompatActivity {
         String shrPrfName = getString(R.string.shared_pref_name);
         SharedPreferences sharedPreferences = getSharedPreferences(shrPrfName, MODE_PRIVATE);
         profileId = sharedPreferences.getInt("id", -1);
-        Log.i("id "+sharedPreferences.getString("name", ""), String.valueOf(profileId));
 
         List<Fragment> fragments = Arrays.asList(
                 new Fragment_ChatRoomList(),

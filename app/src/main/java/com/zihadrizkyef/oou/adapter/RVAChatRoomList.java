@@ -3,6 +3,7 @@
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,8 @@ public class RVAChatRoomList extends RecyclerView.Adapter<RVHChatRoomList> {
 
         holder.tvName.setText(chatRoom.getName());
         holder.tvText.setText(chatRoom.getMessage());
+
+        Log.i("URL", ApiHelper.API_BASE_URL + chatRoom.getImageUrl());
         Glide.with(context)
                 .load(ApiHelper.API_BASE_URL+chatRoom.getImageUrl())
                 .error(R.drawable.ic_profile_picture)

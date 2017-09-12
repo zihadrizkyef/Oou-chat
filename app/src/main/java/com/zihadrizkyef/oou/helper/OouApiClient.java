@@ -1,11 +1,14 @@
 package com.zihadrizkyef.oou.helper;
 
 import com.zihadrizkyef.oou.model.AddFriend;
+import com.zihadrizkyef.oou.model.Chat;
 import com.zihadrizkyef.oou.model.ChatRoom;
 import com.zihadrizkyef.oou.model.CreateChatRoom;
 import com.zihadrizkyef.oou.model.DeleteFriend;
+import com.zihadrizkyef.oou.model.EditProfile;
 import com.zihadrizkyef.oou.model.LoginUser;
 import com.zihadrizkyef.oou.model.RegisterUser;
+import com.zihadrizkyef.oou.model.SendChat;
 import com.zihadrizkyef.oou.model.UserProfile;
 
 import java.util.List;
@@ -75,5 +78,28 @@ public interface OouApiClient {
     @GET("chatRoomList.php")
     Call<List<ChatRoom>> chatRoomList (
             @Query("id") Integer id
+    );
+
+    @FormUrlEncoded
+    @POST("editProfile.php")
+    Call<EditProfile> editProfile(
+            @Field("id") Integer id,
+            @Field("name") String name,
+            @Field("bio") String bio,
+            @Field("frbs_notif_id") String frbsNotifId
+    );
+
+    @FormUrlEncoded
+    @POST("sendChat.php")
+    Call<SendChat> sendChat(
+            @Field("id") Integer id,
+            @Field("chat_room_id") Integer chatRoomId,
+            @Field("text") String text
+    );
+
+    @GET("chatRowList.php")
+    Call<List<Chat>> chatRowList(
+            @Query("room_id") Integer roomId,
+            @Query("offset") Integer offset
     );
 }

@@ -12,25 +12,25 @@
         android:id="@+id/lyTextInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:orientation="horizontal">
         <EditText
             android:id="@+id/etTextInput"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:padding="8dp"
-            android:maxHeight="130dp"
             android:background="#FFF"
-            android:inputType="text|textCapSentences"/>
+            android:inputType="text|textCapSentences"
+            android:maxHeight="130dp"
+            android:padding="8dp"/>
 
         <ImageButton
             android:id="@+id/ibTextSend"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:scaleType="fitEnd"
             android:background="#88F"
+            android:scaleType="fitEnd"
             android:src="@android:drawable/ic_menu_send"/>
     </LinearLayout>
 

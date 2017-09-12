@@ -1,6 +1,7 @@
 package com.zihadrizkyef.oou.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.signature.StringSignature;
-import com.zihadrizkyef.oou.Activity_Main;
 import com.zihadrizkyef.oou.R;
+import com.zihadrizkyef.oou.helper.ApiHelper;
 import com.zihadrizkyef.oou.model.Chat;
 
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
@@ -34,7 +36,11 @@ public class RVAChat extends  RecyclerView.Adapter<RVHChat> {
     public int getItemViewType(int position) {
         Chat chat = chats.get(position);
 
-        return chat.getProfile_id()== Activity_Main.profileId?0:1;
+        String shrPrfName = context.getString(R.string.shared_pref_name);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(shrPrfName, MODE_PRIVATE);
+        int id = sharedPreferences.getInt("id", -1);
+
+        return chat.getSenderId() == id ? 0 : 1;
     }
 
     @Override
@@ -54,18 +60,17 @@ public class RVAChat extends  RecyclerView.Adapter<RVHChat> {
 
         if (holder.getItemViewType() != 0) {
             Glide.with(context)
-                    .load(chat.getPhotoUrl())
+                    .load(ApiHelper.API_BASE_URL + "/" + chat.getImageUrl())
                     .error(R.drawable.ic_profile_picture)
-                    .signature(new StringSignature(String.valueOf(chat.getPhotoVersion())))
                     .into(holder.ivPhoto);
         }
 
-        holder.tvText.setText(chat.getText());
+        holder.tvText.setText(chat.getMessage());
     }
 
     @Override
     public int getItemCount() {
-        return chats ==null?0: chats.size();
+        return chats == null ? 0 : chats.size();
     }
 
     public void setChats(List<Chat> chats) {

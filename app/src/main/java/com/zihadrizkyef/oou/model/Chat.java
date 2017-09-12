@@ -1,46 +1,107 @@
 package com.zihadrizkyef.oou.model;
 
-/**
- * بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
- * Created by zihadrizkyef on 16/07/17.
- */
+import com.google.gson.annotations.SerializedName;
 
 public class Chat {
-    private int profile_id;
-    private String name;
-    private String photoUrl;
-    private int photoVersion;
-    private String text;
 
-    public Chat(int profile_id, String name, String photoUrl, int photoVersion, String text) {
-        this.profile_id = profile_id;
-        this.name = name;
-        this.photoUrl = photoUrl;
-        this.photoVersion = photoVersion;
-        this.text = text;
-    }
+	@SerializedName("readed")
+	private int readed;
 
-    public String getName() {
-        return name;
-    }
+	@SerializedName("image_url")
+	private String imageUrl;
 
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
+	@SerializedName("chat_room_id")
+	private int chatRoomId;
 
-    public int getPhotoVersion() {
-        return photoVersion;
-    }
+	@SerializedName("created_at")
+	private String createdAt;
 
-    public int getProfile_id() {
-        return profile_id;
-    }
+	@SerializedName("id")
+	private int id;
 
-    public String getText() {
-        return text;
-    }
+	@SerializedName("message")
+	private String message;
 
-    public void setText(String text) {
-        this.text = text;
-    }
+	@SerializedName("sender_id")
+	private int senderId;
+
+	public Chat(int id, String message, int senderId, int chatRoomId, String imageUrl, int readed, String createdAt) {
+		this.id = id;
+		this.message = message;
+		this.senderId = senderId;
+		this.chatRoomId = chatRoomId;
+		this.imageUrl = imageUrl;
+		this.readed = readed;
+		this.createdAt = createdAt;
+	}
+
+	public int getReaded() {
+		return readed;
+	}
+
+	public void setReaded(int readed) {
+		this.readed = readed;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public int getChatRoomId() {
+		return chatRoomId;
+	}
+
+	public void setChatRoomId(int chatRoomId) {
+		this.chatRoomId = chatRoomId;
+	}
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public int getSenderId() {
+		return senderId;
+	}
+
+	public void setSenderId(int senderId) {
+		this.senderId = senderId;
+	}
+
+	@Override
+	public String toString() {
+		return
+				"Chat{" +
+						"readed = '" + readed + '\'' +
+						",image_url = '" + imageUrl + '\'' +
+						",chat_room_id = '" + chatRoomId + '\'' +
+						",created_at = '" + createdAt + '\'' +
+						",id = '" + id + '\'' +
+						",message = '" + message + '\'' +
+						",sender_id = '" + senderId + '\'' +
+						"}";
+	}
 }

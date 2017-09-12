@@ -20,8 +20,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.zihadrizkyef.oou.helper.ApiHelper;
 import com.zihadrizkyef.oou.helper.OouApiClient;
+import com.zihadrizkyef.oou.model.EditProfile;
 import com.zihadrizkyef.oou.model.LoginUser;
 
 import retrofit2.Call;
@@ -135,6 +137,25 @@ public class Activity_Login extends AppCompatActivity {
                         editor.putString("bio", response.body().getBio());
                         editor.putString("imageurl", response.body().getImageurl());
                         editor.apply();
+
+                        Call<EditProfile> editProfile = apiClient.editProfile(
+                                response.body().getId(),
+                                response.body().getName(),
+                                response.body().getBio(),
+                                FirebaseInstanceId.getInstance().getToken()
+                        );
+                        editProfile.enqueue(new Callback<EditProfile>() {
+                            @Override
+                            public void onResponse(Call<EditProfile> call, Response<EditProfile> response) {
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<EditProfile> call, Throwable t) {
+
+                            }
+                        });
+
                         finish();
                     } else {
                         Toast.makeText(Activity_Login.this, "Server error", Toast.LENGTH_SHORT).show();

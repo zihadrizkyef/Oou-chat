@@ -2,8 +2,8 @@ package com.zihadrizkyef.oou;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -113,6 +113,9 @@ public class Activity_Register extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt("id", response.body().getId());
                         editor.putString("name", name);
+                        editor.putString("username", username);
+                        editor.putString("password", password);
+
                         editor.apply();
 
                         startActivity(new Intent(Activity_Register.this, Activity_Splash.class));
