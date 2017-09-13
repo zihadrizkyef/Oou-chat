@@ -17,6 +17,8 @@ import com.zihadrizkyef.oou.helper.DatabaseUserProfile;
 import com.zihadrizkyef.oou.helper.OouApiClient;
 import com.zihadrizkyef.oou.model.UserProfile;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -76,6 +78,12 @@ public class Fragment_ContactList extends Fragment {
                 showProgress(false);
                 if (response.isSuccessful()) {
                     List<UserProfile> userProfiles = response.body();
+                    Collections.sort(userProfiles, new Comparator<UserProfile>() {
+                        @Override
+                        public int compare(UserProfile o1, UserProfile o2) {
+                            return o1.getName().compareTo(o2.getName());
+                        }
+                    });
                     rvaContactList.setUserProfileList(userProfiles);
                     for (int i = 0; i < userProfiles.size(); i++) {
                         UserProfile userProfile = userProfiles.get(i);

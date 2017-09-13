@@ -3,8 +3,8 @@
           package="com.zihadrizkyef.oou">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -13,13 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <service android:name="com.zihadrizkyef.oou.Service_FirebaseMessaging">
+        <service android:name=".Service_FirebaseMessaging">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <service android:name="com.zihadrizkyef.oou.Service_FirebaseInstanceID">
+        <service android:name=".Service_FirebaseInstanceID">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
@@ -33,28 +32,31 @@
             android:resource="@color/colorAccent"/>
 
         <activity
-            android:name="com.zihadrizkyef.oou.Activity_Splash"
+            android:name=".Activity_Splash"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name="com.zihadrizkyef.oou.Activity_Login"
+            android:name=".Activity_Login"
             android:label="@string/title_activity_login">
         </activity>
         <activity
-            android:name="com.zihadrizkyef.oou.Activity_Register"
+            android:name=".Activity_Register"
             android:label="Register">
         </activity>
         <activity
-            android:name="com.zihadrizkyef.oou.Activity_Main"
+            android:name=".Activity_Main"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name="com.zihadrizkyef.oou.Activity_ChatRoom"/>
-        <activity android:name="com.zihadrizkyef.oou.Activity_AddFriend"/>
+        <activity android:name=".Activity_ChatRoom"/>
+        <activity android:name=".Activity_AddFriend"/>
+        <activity android:name=".Activity_TextEditor">
+        </activity>
     </application>
 
 </manifest>

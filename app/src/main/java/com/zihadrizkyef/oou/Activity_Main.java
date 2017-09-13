@@ -35,13 +35,14 @@ public class Activity_Main extends AppCompatActivity {
         profileId = sharedPreferences.getInt("id", -1);
 
         List<Fragment> fragments = Arrays.asList(
-                new Fragment_ChatRoomList(),
                 new Fragment_ContactList(),
+                new Fragment_ChatRoomList(),
                 new Fragment_Setting());
         final List<String> titles = Arrays.asList(
-                "Chat",
                 "Contact",
-                "Setting");
+                "Chat",
+                "Setting"
+        );
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
 
         mViewPager = (ViewPager) findViewById(R.id.container);

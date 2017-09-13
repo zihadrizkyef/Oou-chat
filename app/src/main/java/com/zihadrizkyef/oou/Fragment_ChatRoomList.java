@@ -16,6 +16,8 @@ import com.zihadrizkyef.oou.helper.ApiHelper;
 import com.zihadrizkyef.oou.helper.OouApiClient;
 import com.zihadrizkyef.oou.model.ChatRoom;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -60,6 +62,12 @@ public class Fragment_ChatRoomList extends Fragment {
             @Override
             public void onResponse(Call<List<ChatRoom>> call, Response<List<ChatRoom>> response) {
                 if (response.isSuccessful()) {
+                    Collections.sort(response.body(), new Comparator<ChatRoom>() {
+                        @Override
+                        public int compare(ChatRoom o1, ChatRoom o2) {
+                            return Integer.compare(o1.getId(), o2.getId());
+                        }
+                    });
                     rvaChatRoomList.setChatRooms(response.body());
                 } else {
                     Toast.makeText(getActivity(), "Server error", Toast.LENGTH_SHORT).show();

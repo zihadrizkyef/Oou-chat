@@ -4,8 +4,8 @@
       tools:context="com.zihadrizkyef.oou.Activity_Main">
     <item
         android:id="@+id/add_friend"
+        android:icon="@drawable/ic_add_person"
         android:orderInCategory="100"
         android:title="Add Friends"
-        android:icon="@drawable/ic_add_friend"
         app:showAsAction="always"/>
 </menu>
