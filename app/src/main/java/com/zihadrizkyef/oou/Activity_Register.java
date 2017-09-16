@@ -1,5 +1,6 @@
 package com.zihadrizkyef.oou;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -102,11 +103,12 @@ public class Activity_Register extends AppCompatActivity {
                 name = etName.getText().toString();
 
         if (!username.equals("") && (password.length()>3 && password.equals(confPassword)) && !name.equals("")) {
-
+            final ProgressDialog progressDialog = ProgressDialog.show(this, "Loading", "please wait ...", true, false);
             Call<RegisterUser> registCall = apiClient.registerUser(username, password, name, FirebaseInstanceId.getInstance().getToken());
             registCall.enqueue(new Callback<RegisterUser>() {
                 @Override
                 public void onResponse(Call<RegisterUser> call, Response<RegisterUser> response) {
+                    progressDialog.dismiss();
                     if (response.isSuccessful()) {
                         String shrPrfName = getString(R.string.shared_pref_name);
                         SharedPreferences sharedPreferences = getSharedPreferences(shrPrfName, MODE_PRIVATE);
@@ -127,6 +129,7 @@ public class Activity_Register extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<RegisterUser> call, Throwable t) {
+                    progressDialog.dismiss();
                     Toast.makeText(Activity_Register.this, "Server error", Toast.LENGTH_SHORT).show();
                     t.printStackTrace();
                 }

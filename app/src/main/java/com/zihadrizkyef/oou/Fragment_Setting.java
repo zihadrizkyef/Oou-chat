@@ -286,7 +286,13 @@ public class Fragment_Setting extends Fragment {
             @Override
             public void onResponse(Call<ChangeProfilePicture> call, Response<ChangeProfilePicture> response) {
                 progressDialog.dismiss();
-                Toast.makeText(getActivity(), "Sip jos kang", Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful()) {
+                    imageUrl = response.body().getImageUrl();
+                    updateProfileToSharedPreferences();
+                    Toast.makeText(getActivity(), "Profile picture updated successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Server server", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

@@ -1,5 +1,6 @@
 package com.zihadrizkyef.oou;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -36,8 +37,6 @@ import retrofit2.Response;
 public class Activity_Login extends AppCompatActivity {
     private EditText etUsername;
     private EditText etPassword;
-    private View vLoading;
-    private View vLoginForm;
     private TextView tvRegister;
     private Button btSignIn;
 
@@ -54,8 +53,6 @@ public class Activity_Login extends AppCompatActivity {
         etPassword = (EditText) findViewById(R.id.etPassword);
         tvRegister = (TextView) findViewById(R.id.tvRegister);
         btSignIn = (Button) findViewById(R.id.btSignIn);
-        vLoginForm = findViewById(R.id.scLoginForm);
-        vLoading = findViewById(R.id.pbLoading);
 
         etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -120,12 +117,12 @@ public class Activity_Login extends AppCompatActivity {
         if (cancel) {
             focusView.requestFocus();
         } else {
-            showProgress(true);
-
+            final ProgressDialog progressDialog = ProgressDialog.show(this, "Loading", "please wait ...", true, false);
             Call<LoginUser> loginUser = apiClient.loginUser(username, password);
             loginUser.enqueue(new Callback<LoginUser>() {
                 @Override
                 public void onResponse(Call<LoginUser> call, Response<LoginUser> response) {
+                    progressDialog.dismiss();
                     if (response.isSuccessful()) {
                         startActivity(new Intent(Activity_Login.this, Activity_Splash.class));
                         String shrPrfName = getString(R.string.shared_pref_name);
@@ -160,27 +157,16 @@ public class Activity_Login extends AppCompatActivity {
                     } else {
                         Toast.makeText(Activity_Login.this, "Server error", Toast.LENGTH_SHORT).show();
                     }
-                    showProgress(false);
                 }
 
                 @Override
                 public void onFailure(Call<LoginUser> call, Throwable t) {
                     Toast.makeText(Activity_Login.this, "Server error", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
                     t.printStackTrace();
-                    showProgress(false);
+                    progressDialog.dismiss();
                 }
             });
-        }
-    }
-
-    private void showProgress(final boolean show) {
-        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-        if (show) {
-            vLoading.setVisibility(View.VISIBLE);
-            vLoading.animate().setDuration(shortAnimTime).translationY(80);
-        } else {
-            vLoading.setVisibility(View.GONE);
         }
     }
 }
