@@ -17,8 +17,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Activity_Main extends AppCompatActivity {
+    List<String> titles;
+    List<Fragment> fragments;
     private int profileId = 0;
-
     private ViewPager mViewPager;
     private Menu menu;
 
@@ -34,11 +35,11 @@ public class Activity_Main extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(shrPrfName, MODE_PRIVATE);
         profileId = sharedPreferences.getInt("id", -1);
 
-        List<Fragment> fragments = Arrays.asList(
+        fragments = Arrays.asList(
                 new Fragment_ContactList(),
                 new Fragment_ChatRoomList(),
                 new Fragment_Setting());
-        final List<String> titles = Arrays.asList(
+        titles = Arrays.asList(
                 "Contact",
                 "Chat",
                 "Setting"
@@ -72,7 +73,7 @@ public class Activity_Main extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (mViewPager.getCurrentItem() == 1) {
+        if (titles.get(mViewPager.getCurrentItem()).equals("Contact")) {
             getMenuInflater().inflate(R.menu.menu_contact, menu);
         }
         this.menu = menu;

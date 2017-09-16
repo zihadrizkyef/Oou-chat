@@ -1,11 +1,14 @@
 package com.zihadrizkyef.oou;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +20,18 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.zihadrizkyef.oou.helper.ApiHelper;
+import com.zihadrizkyef.oou.helper.FileUtils;
 import com.zihadrizkyef.oou.helper.OouApiClient;
+import com.zihadrizkyef.oou.helper.RequestBodyWithProgress;
+import com.zihadrizkyef.oou.model.ChangeProfilePicture;
 import com.zihadrizkyef.oou.model.EditProfile;
 import com.zihadrizkyef.oou.model.UserProfile;
 
+import java.io.File;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,6 +47,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class Fragment_Setting extends Fragment {
     private static final int REQUEST_NAME_EDIT = 1;
     private static final int REQUEST_BIO_EDIT = 2;
+    private static final int REQUEST_GET_IMAGE = 3;
 
     private OouApiClient apiClient;
 
@@ -81,6 +93,15 @@ public class Fragment_Setting extends Fragment {
                 bio = data.getStringExtra("result");
                 tvBio.setText(bio);
                 updateProfileToServerDatabase();
+            } else if (requestCode == REQUEST_GET_IMAGE) {
+                Glide.with(getActivity())
+                        .load(data.getData())
+                        .error(R.drawable.ic_profile_picture)
+                        .into(ivProfilePicture);
+
+                File image = FileUtils.getFile(getActivity(), data.getData());
+
+                updateImageToServer(image);
             }
         }
     }
@@ -98,6 +119,29 @@ public class Fragment_Setting extends Fragment {
                 int maxLines = tvBio.getHeight() / tvBio.getLineHeight();
                 tvBio.setMaxLines(maxLines);
                 tvBio.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+
+        ivProfilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder optionPopupBuilder = new AlertDialog.Builder(getActivity());
+                optionPopupBuilder.setTitle("Profile Picture");
+                optionPopupBuilder.setIcon(R.drawable.ic_profile_picture);
+                optionPopupBuilder.setItems(new CharSequence[]{"Delete photo", "Change photo"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            imageUrl = "";
+                            updateProfileToServerDatabase();
+                        } else {
+                            Intent intent = new Intent(Intent.ACTION_PICK);
+                            intent.setType("image/*");
+                            startActivityForResult(intent, REQUEST_GET_IMAGE);
+                        }
+                    }
+                });
+                optionPopupBuilder.show();
             }
         });
 
@@ -129,9 +173,17 @@ public class Fragment_Setting extends Fragment {
         name = sharedPreferences.getString("name", "");
         bio = sharedPreferences.getString("bio", "");
 
-        Glide.with(this)
-                .load(ApiHelper.API_BASE_URL + imageUrl)
-                .into(ivProfilePicture);
+        if (imageUrl.equals("")) {
+            Glide.with(this)
+                    .load(R.drawable.ic_profile_picture)
+                    .into(ivProfilePicture);
+        } else {
+            Glide.with(this)
+                    .load(ApiHelper.API_BASE_URL + imageUrl)
+                    .error(R.drawable.ic_profile_picture)
+                    .into(ivProfilePicture);
+
+        }
         tvUsername.setText(username);
         tvName.setText(name);
         tvBio.setText(bio);
@@ -204,5 +256,45 @@ public class Fragment_Setting extends Fragment {
         shaEditor.putString("name", name);
         shaEditor.putString("bio", bio);
         shaEditor.apply();
+    }
+
+    private void updateImageToServer(File image) {
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setTitle("Uploading");
+        progressDialog.setMessage("please wait ...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setCancelable(false);
+        progressDialog.setMax(100);
+        progressDialog.setProgress(2);
+        progressDialog.show();
+
+        RequestBody bodyId = RequestBody.create(okhttp3.MultipartBody.FORM, String.valueOf(id));
+        RequestBodyWithProgress requestBodyFileWithProgress = new RequestBodyWithProgress(
+                MediaType.parse("image/*"),
+                image,
+                new RequestBodyWithProgress.UploadCallbacks() {
+                    @Override
+                    public void onProgressUpdate(int percentage, String text) {
+                        Log.i("progress " + text, "" + percentage);
+                        progressDialog.setProgress(percentage);
+                    }
+                },
+                "file");
+        MultipartBody.Part multipartFile = MultipartBody.Part.createFormData("image", image.getName(), requestBodyFileWithProgress);
+
+        apiClient.changeProfilePicture(bodyId, multipartFile).enqueue(new Callback<ChangeProfilePicture>() {
+            @Override
+            public void onResponse(Call<ChangeProfilePicture> call, Response<ChangeProfilePicture> response) {
+                progressDialog.dismiss();
+                Toast.makeText(getActivity(), "Sip jos kang", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<ChangeProfilePicture> call, Throwable t) {
+                t.printStackTrace();
+                progressDialog.dismiss();
+                Toast.makeText(getActivity(), "fail coy", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

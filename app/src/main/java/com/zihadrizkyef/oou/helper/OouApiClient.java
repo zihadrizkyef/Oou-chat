@@ -1,6 +1,7 @@
 package com.zihadrizkyef.oou.helper;
 
 import com.zihadrizkyef.oou.model.AddFriend;
+import com.zihadrizkyef.oou.model.ChangeProfilePicture;
 import com.zihadrizkyef.oou.model.Chat;
 import com.zihadrizkyef.oou.model.ChatRoom;
 import com.zihadrizkyef.oou.model.CreateChatRoom;
@@ -13,11 +14,15 @@ import com.zihadrizkyef.oou.model.UserProfile;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 /**
@@ -101,5 +106,12 @@ public interface OouApiClient {
     Call<List<Chat>> chatRowList(
             @Query("room_id") Integer roomId,
             @Query("offset") Integer offset
+    );
+
+    @Multipart
+    @POST("changeProfilePicture.php")
+    Call<ChangeProfilePicture> changeProfilePicture(
+            @Part("id") RequestBody id,
+            @Part MultipartBody.Part image
     );
 }

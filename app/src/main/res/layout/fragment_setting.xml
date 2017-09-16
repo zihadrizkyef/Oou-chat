@@ -11,8 +11,10 @@
         android:id="@+id/tvName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:maxLines="1"
@@ -28,53 +30,103 @@
         android:id="@+id/tvUsername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="-1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="Username"
         android:textSize="12sp"
-        app:layout_constraintLeft_toLeftOf="@+id/tvName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/tvUsernamePlaceholder"
         app:layout_constraintRight_toRightOf="@+id/tvName"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"/>
+        app:layout_constraintTop_toTopOf="@+id/tvUsernamePlaceholder"/>
 
     <TextView
         android:id="@+id/tvBio"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginBottom="4dp"
         android:ellipsize="end"
         android:text="@string/lorem_ipsum"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/ivPhotoProfile"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@+id/tvUsername"
+        app:layout_constraintLeft_toLeftOf="@+id/tvUsernamePlaceholder"
         app:layout_constraintRight_toRightOf="@+id/tvUsername"
-        app:layout_constraintTop_toBottomOf="@+id/tvUsername"/>
+        app:layout_constraintTop_toBottomOf="@+id/line2"
+        app:layout_constraintVertical_bias="1.0"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivPhotoProfile"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_profile_picture"
+        app:civ_fill_color="#cdd5d7"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/guideline2"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.3"/>
+        app:layout_constraintGuide_percent="0.3"
+        tools:layout_editor_absoluteX="115dp"
+        tools:layout_editor_absoluteY="0dp"/>
+
+    <TextView
+        android:id="@+id/tvUsernamePlaceholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:text="Username :"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/line1"
+        tools:layout_editor_absoluteY="52dp"/>
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/colorDivider"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/tvName"
+        app:layout_constraintRight_toRightOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"/>
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/colorDivider"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/tvUsernamePlaceholder"
+        app:layout_constraintRight_toRightOf="@+id/tvUsername"
+        app:layout_constraintTop_toBottomOf="@+id/tvUsername"/>
+
+    <View
+        android:id="@+id/line3"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/colorDivider"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/tvBio"
+        app:layout_constraintRight_toRightOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@id/ivPhotoProfile"/>
 
 </android.support.constraint.ConstraintLayout>
