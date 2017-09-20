@@ -78,14 +78,7 @@ public class Activity_ChatRoom extends AppCompatActivity {
             }
         };
 
-        LocalBroadcastManager
-                .getInstance(this)
-                .registerReceiver(
-                        notifReceiver,
-                        new IntentFilter(BROADCAST_FILTER)
-                );
-
-        LinearLayoutManager lyManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        final LinearLayoutManager lyManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvaChat = new RVAChat(this, chatRowList);
         rvChat.setLayoutManager(lyManager);
         rvChat.setAdapter(rvaChat);
@@ -132,7 +125,14 @@ public class Activity_ChatRoom extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        Call<List<Chat>> listCall = apiClient.chatRowList(roomId, 20);
+        LocalBroadcastManager
+                .getInstance(this)
+                .registerReceiver(
+                        notifReceiver,
+                        new IntentFilter(BROADCAST_FILTER)
+                );
+
+        Call<List<Chat>> listCall = apiClient.chatRowList(roomId, 0);
         listCall.enqueue(new Callback<List<Chat>>() {
             @Override
             public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
@@ -156,6 +156,6 @@ public class Activity_ChatRoom extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-//        unregisterReceiver(notifReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notifReceiver);
     }
 }

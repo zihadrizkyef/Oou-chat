@@ -1,7 +1,6 @@
 package com.zihadrizkyef.oou;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -19,7 +18,6 @@ import java.util.List;
 public class Activity_Main extends AppCompatActivity {
     List<String> titles;
     List<Fragment> fragments;
-    private int profileId = 0;
     private ViewPager mViewPager;
     private Menu menu;
 
@@ -30,10 +28,6 @@ public class Activity_Main extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        String shrPrfName = getString(R.string.shared_pref_name);
-        SharedPreferences sharedPreferences = getSharedPreferences(shrPrfName, MODE_PRIVATE);
-        profileId = sharedPreferences.getInt("id", -1);
 
         fragments = Arrays.asList(
                 new Fragment_ContactList(),
