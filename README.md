@@ -8,6 +8,4 @@ Simple, just register and add friend you want, then type message you want to pun
   3. Change profile
 
 # Screen Shoot
-![Screenshoot 1](/screenshoot/img1.jpg)
-![Screenshoot 2](/screenshoot/img2.jpg)
-![Screenshoot 3](/screenshoot/img3.jpg)
+![ScreenShot 1](https://github.com/zihadrizkyef/Oou-chat/blob/master/screenshoot/img1.png)
