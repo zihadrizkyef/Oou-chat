@@ -4,7 +4,7 @@
       tools:context="com.zihadrizkyef.oou.Activity_Main">
     <item
         android:id="@+id/add_friend"
-        android:icon="@drawable/ic_add_person"
+        android:icon="@drawable/ic_add_friend"
         android:orderInCategory="100"
         android:title="Add Friends"
         app:showAsAction="always"/>

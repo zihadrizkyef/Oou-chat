@@ -1,5 +1,6 @@
 package com.zihadrizkyef.oou;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +11,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -50,39 +50,68 @@ public class Activity_ChatRoom extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(shrPrfName, MODE_PRIVATE);
         id = sharedPreferences.getInt("id", -1);
         roomId = getIntent().getIntExtra("roomId", -1);
-        roomName = getIntent().getStringExtra("name");
+        roomName = getIntent().getStringExtra("roomName");
         getSupportActionBar().setTitle(roomName);
 
-        rvChat = (RecyclerView) findViewById(R.id.rvChat);
-
-        chatRowList = new ArrayList<>();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(roomId);
 
         apiClient = ApiHelper.getApiClient();
 
-        notifReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Log.i("frbs", "notifReceiver active");
-                Chat chat = new Chat(
-                        intent.getIntExtra("id", -1),
-                        intent.getStringExtra("message"),
-                        intent.getIntExtra("senderId", -1),
-                        intent.getIntExtra("roomId", -1),
-                        intent.getStringExtra("imageUrl"),
-                        intent.getIntExtra("readed", -1),
-                        intent.getStringExtra("createdAt")
-                );
-                chatRowList.add(chat);
-                rvaChat.notifyItemInserted(chatRowList.size() - 1);
-                rvChat.scrollToPosition(chatRowList.size() - 1);
-            }
-        };
+        createNotifReceiver();
 
+        setUpRecyclerView();
+
+        setUpTextInputSendChat();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        registNotifReceiver();
+
+        loadChatFromServer();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        unregNotifReceiver();
+    }
+
+    private void loadChatFromServer() {
+        Call<List<Chat>> listCall = apiClient.chatRowList(roomId, 0);
+        listCall.enqueue(new Callback<List<Chat>>() {
+            @Override
+            public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
+                if (response.isSuccessful()) {
+                    chatRowList.clear();
+                    chatRowList.addAll(response.body());
+                    rvaChat.notifyDataSetChanged();
+                    rvChat.scrollToPosition(chatRowList.size() - 1);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Chat>> call, Throwable t) {
+                Toast.makeText(Activity_ChatRoom.this, "Server error", Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void setUpRecyclerView() {
+        rvChat = (RecyclerView) findViewById(R.id.rvChat);
+        chatRowList = new ArrayList<>();
         final LinearLayoutManager lyManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvaChat = new RVAChat(this, chatRowList);
         rvChat.setLayoutManager(lyManager);
         rvChat.setAdapter(rvaChat);
+    }
 
+    private void setUpTextInputSendChat() {
         final EditText etTextInput = (EditText) findViewById(R.id.etTextInput);
         ImageButton ibTextSend = (ImageButton) findViewById(R.id.ibTextSend);
         ibTextSend.setOnClickListener(new View.OnClickListener() {
@@ -121,41 +150,36 @@ public class Activity_ChatRoom extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    private void createNotifReceiver() {
+        notifReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Chat chat = new Chat(
+                        intent.getIntExtra("id", -1),
+                        intent.getStringExtra("message"),
+                        intent.getIntExtra("senderId", -1),
+                        intent.getIntExtra("roomId", -1),
+                        intent.getStringExtra("imageUrl"),
+                        intent.getIntExtra("readed", -1),
+                        intent.getStringExtra("createdAt")
+                );
+                chatRowList.add(chat);
+                rvaChat.notifyItemInserted(chatRowList.size() - 1);
+                rvChat.scrollToPosition(chatRowList.size() - 1);
+            }
+        };
+    }
 
+    private void unregNotifReceiver() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notifReceiver);
+    }
+
+    private void registNotifReceiver() {
         LocalBroadcastManager
                 .getInstance(this)
                 .registerReceiver(
                         notifReceiver,
                         new IntentFilter(BROADCAST_FILTER)
                 );
-
-        Call<List<Chat>> listCall = apiClient.chatRowList(roomId, 0);
-        listCall.enqueue(new Callback<List<Chat>>() {
-            @Override
-            public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
-                if (response.isSuccessful()) {
-                    chatRowList.clear();
-                    chatRowList.addAll(response.body());
-                    rvaChat.notifyDataSetChanged();
-                    rvChat.scrollToPosition(chatRowList.size() - 1);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Chat>> call, Throwable t) {
-                Toast.makeText(Activity_ChatRoom.this, "Server error", Toast.LENGTH_SHORT).show();
-                t.printStackTrace();
-            }
-        });
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(notifReceiver);
     }
 }

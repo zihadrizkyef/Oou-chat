@@ -7,8 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.zihadrizkyef.oou.adapter.ViewPagerAdapter;
 
@@ -62,6 +65,21 @@ public class Activity_Main extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        View v0 = LayoutInflater.from(this).inflate(R.layout.tablayout_itemview, null);
+        ((ImageView) v0.findViewById(R.id.ivImage)).setImageResource(R.drawable.ic_person_white_24dp);
+        v0.findViewById(R.id.tvBadge).setVisibility(View.GONE);
+        tabLayout.getTabAt(0).setCustomView(v0);
+
+        View v1 = LayoutInflater.from(this).inflate(R.layout.tablayout_itemview, null);
+        ((ImageView) v1.findViewById(R.id.ivImage)).setImageResource(R.drawable.ic_chat_bubble_24dp);
+        v1.findViewById(R.id.tvBadge).setVisibility(View.GONE);
+        tabLayout.getTabAt(1).setCustomView(v1);
+
+        View v2 = LayoutInflater.from(this).inflate(R.layout.tablayout_itemview, null);
+        ((ImageView) v2.findViewById(R.id.ivImage)).setImageResource(R.drawable.ic_settings_white_24dp);
+        v2.findViewById(R.id.tvBadge).setVisibility(View.GONE);
+        tabLayout.getTabAt(2).setCustomView(v2);
     }
 
 
@@ -71,6 +89,7 @@ public class Activity_Main extends AppCompatActivity {
             getMenuInflater().inflate(R.menu.menu_contact, menu);
         }
         this.menu = menu;
+
         return true;
     }
 

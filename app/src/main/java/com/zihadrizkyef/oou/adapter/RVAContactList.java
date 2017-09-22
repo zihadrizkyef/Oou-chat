@@ -90,8 +90,7 @@ public class RVAContactList extends  RecyclerView.Adapter<RVHContactList> {
                                     int roomId = response.body().getRoomId();
                                     Intent intent = new Intent(context, Activity_ChatRoom.class);
                                     intent.putExtra("roomId", roomId);
-                                    intent.putExtra("recipientId", userProfile.getId());
-                                    intent.putExtra("name", userProfile.getName());
+                                    intent.putExtra("roomName", userProfile.getName());
                                     context.startActivity(intent);
                                 } else {
                                     Toast.makeText(context, "Server error", Toast.LENGTH_SHORT).show();

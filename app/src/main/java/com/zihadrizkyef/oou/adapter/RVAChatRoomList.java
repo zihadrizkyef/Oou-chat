@@ -56,7 +56,7 @@ public class RVAChatRoomList extends RecyclerView.Adapter<RVHChatRoomList> {
             public void onClick(View v) {
                 Intent intent = new Intent(context, Activity_ChatRoom.class);
                 intent.putExtra("roomId", chatRoom.getId());
-                intent.putExtra("name", chatRoom.getName());
+                intent.putExtra("roomName", chatRoom.getName());
 
                 context.startActivity(intent);
             }

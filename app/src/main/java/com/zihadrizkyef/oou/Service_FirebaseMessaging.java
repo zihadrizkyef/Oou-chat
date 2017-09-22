@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -31,17 +30,13 @@ public class Service_FirebaseMessaging extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        Log.i("notifz", "onMessageC");
-
         Map<String, String> data = remoteMessage.getData();
 
         if (data.get("action").equals("new_chat")) {
-            Log.i("notifz", "if");
             try {
                 JSONObject message = new JSONObject(data.get("msg"));
 
                 if (CustomLifeCycleCallback.isApplicationInForeground()) {
-                    Log.i("notifz", "foreground");
                     Intent intent = new Intent(Activity_ChatRoom.BROADCAST_FILTER);
 
                     intent.putExtra("id", message.getInt("id"));
@@ -54,10 +49,17 @@ public class Service_FirebaseMessaging extends FirebaseMessagingService {
 
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 } else {
-                    Log.i("notifz", "else");
                     final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-                    Intent intent = new Intent(this, Activity_Splash.class);
-                    PendingIntent pendingIntent = PendingIntent.getActivities(this, 0, new Intent[]{intent}, PendingIntent.FLAG_UPDATE_CURRENT);
+                    Intent intentMain = new Intent(this, Activity_Main.class);
+                    Intent intentChat = new Intent(this, Activity_ChatRoom.class);
+                    intentChat.putExtra("roomId", message.getInt("chat_room_id"));
+                    intentChat.putExtra("roomName", data.get("title"));
+                    PendingIntent pendingIntent = PendingIntent.getActivities(
+                            this,
+                            0,
+                            new Intent[]{intentMain, intentChat},
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
                     mBuilder.setContentTitle(data.get("title"))
                             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                             .setContentText(message.getString("message"))
@@ -68,7 +70,6 @@ public class Service_FirebaseMessaging extends FirebaseMessagingService {
                             .setVibrate(new long[]{0, 300, 75, 300});
 
                     try {
-                        Log.i("scrsize", String.valueOf(getResources().getDisplayMetrics().density));
                         Bitmap bitmap = Glide.with(getApplicationContext())
                                 .load(ApiHelper.API_BASE_URL + message.getString("image_url"))
                                 .asBitmap()
@@ -76,8 +77,7 @@ public class Service_FirebaseMessaging extends FirebaseMessagingService {
                                 .get();
                         mBuilder.setLargeIcon(bitmap);
                         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                        notificationManager.notify(Integer.valueOf(message.getString("chat_room_id")), mBuilder.build());
-                        Log.i("notifz", "notify");
+                        notificationManager.notify(message.getInt("chat_room_id"), mBuilder.build());
                     } catch (InterruptedException | ExecutionException e) {
                         e.printStackTrace();
                     }
