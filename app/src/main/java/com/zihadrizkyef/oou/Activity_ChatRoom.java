@@ -21,6 +21,8 @@ import com.zihadrizkyef.oou.helper.ApiHelper;
 import com.zihadrizkyef.oou.helper.OouApiClient;
 import com.zihadrizkyef.oou.model.Chat;
 import com.zihadrizkyef.oou.model.SendChat;
+import com.zihadrizkyef.oou.model.SetChatReaded;
+import com.zihadrizkyef.oou.model.SetRoomReaded;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +32,21 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Activity_ChatRoom extends AppCompatActivity {
-    static final String BROADCAST_FILTER = "Activity_ChatRoom.notifReceiver";
+    static final String BROADCAST_FILTER_NEWMESSAGE = "Activity_ChatRoom.receiverNewMessage.newMessage";
+    static final String BROADCAST_FILTER_EDITMESSAGE = "Activity_ChatRoom.receiverNewMessage.editMessage";
+    static final String BROADCAST_FILTER_READEDMESSAGE = "Activity_ChatRoom.receiverNewMessage.readedMessage";
+    static final String BROADCAST_FILTER_READEDROOM = "Activity_ChatRoom.receiverNewMessage.readedRoom";
+
+    BroadcastReceiver receiverNewMessage;
+    BroadcastReceiver receiverEditMessage;
+    BroadcastReceiver receiverReadedMessage;
+    BroadcastReceiver receiverReadedRoom;
+
     RVAChat rvaChat;
     RecyclerView rvChat;
     List<Chat> chatRowList;
+
     OouApiClient apiClient;
-    BroadcastReceiver notifReceiver;
 
     int id;
     int roomId;
@@ -56,20 +67,22 @@ public class Activity_ChatRoom extends AppCompatActivity {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(roomId);
 
-        apiClient = ApiHelper.getApiClient();
+        apiClient = ApiHelper.getOouApiClient();
 
-        createNotifReceiver();
+        createBroadcastReceiver();
 
         setUpRecyclerView();
 
         setUpTextInputSendChat();
+
+        setAllRecepientChatReaded();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        registNotifReceiver();
+        registerBroadcastReceiver();
 
         loadChatFromServer();
     }
@@ -78,7 +91,7 @@ public class Activity_ChatRoom extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        unregNotifReceiver();
+        unregisterBroadcastReceiver();
     }
 
     private void loadChatFromServer() {
@@ -119,7 +132,7 @@ public class Activity_ChatRoom extends AppCompatActivity {
             public void onClick(View v) {
                 String text = etTextInput.getText().toString();
                 if (!text.equals("")) {
-                    chatRowList.add(new Chat(0, text, id, 0, "", roomId, ""));
+                    chatRowList.add(new Chat(0, text, id, roomId, "", 0, ""));
                     rvaChat.notifyItemInserted(chatRowList.size() - 1);
                     rvChat.scrollToPosition(chatRowList.size() - 1);
                     etTextInput.setText("");
@@ -150,15 +163,15 @@ public class Activity_ChatRoom extends AppCompatActivity {
         });
     }
 
-    private void createNotifReceiver() {
-        notifReceiver = new BroadcastReceiver() {
+    private void createBroadcastReceiver() {
+        receiverNewMessage = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Chat chat = new Chat(
                         intent.getIntExtra("id", -1),
                         intent.getStringExtra("message"),
                         intent.getIntExtra("senderId", -1),
-                        intent.getIntExtra("roomId", -1),
+                        intent.getIntExtra("chatRoomId", -1),
                         intent.getStringExtra("imageUrl"),
                         intent.getIntExtra("readed", -1),
                         intent.getStringExtra("createdAt")
@@ -166,20 +179,116 @@ public class Activity_ChatRoom extends AppCompatActivity {
                 chatRowList.add(chat);
                 rvaChat.notifyItemInserted(chatRowList.size() - 1);
                 rvChat.scrollToPosition(chatRowList.size() - 1);
+
+                updateChatReaded(chat.getId());
+            }
+        };
+
+        receiverReadedMessage = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int index = getIndexChatWhereId(intent.getIntExtra("id", -1));
+                chatRowList.get(index).setReaded(1);
+                rvaChat.notifyItemChanged(index);
+            }
+        };
+
+        receiverReadedRoom = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (roomId == intent.getIntExtra("roomId", -1)) {
+                    for (int i = 0; i < chatRowList.size(); i++) {
+                        if (chatRowList.get(i).getSenderId() == id) {
+                            chatRowList.get(i).setReaded(1);
+                            rvaChat.notifyItemChanged(i);
+                        }
+                    }
+                }
+            }
+        };
+
+        receiverEditMessage = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (roomId == intent.getIntExtra("roomId", -1)) {
+                    int index = getIndexChatWhereId(intent.getIntExtra("id", -1));
+                    chatRowList.get(index).setMessage(intent.getStringExtra("message"));
+                    rvaChat.notifyItemChanged(index);
+                }
             }
         };
     }
 
-    private void unregNotifReceiver() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(notifReceiver);
-    }
-
-    private void registNotifReceiver() {
+    private void registerBroadcastReceiver() {
         LocalBroadcastManager
                 .getInstance(this)
                 .registerReceiver(
-                        notifReceiver,
-                        new IntentFilter(BROADCAST_FILTER)
+                        receiverNewMessage,
+                        new IntentFilter(BROADCAST_FILTER_NEWMESSAGE)
                 );
+        LocalBroadcastManager
+                .getInstance(this)
+                .registerReceiver(
+                        receiverReadedMessage,
+                        new IntentFilter(BROADCAST_FILTER_READEDMESSAGE)
+                );
+        LocalBroadcastManager
+                .getInstance(this)
+                .registerReceiver(
+                        receiverEditMessage,
+                        new IntentFilter(BROADCAST_FILTER_EDITMESSAGE)
+                );
+        LocalBroadcastManager
+                .getInstance(this)
+                .registerReceiver(
+                        receiverReadedRoom,
+                        new IntentFilter(BROADCAST_FILTER_READEDROOM)
+                );
+    }
+
+    private void unregisterBroadcastReceiver() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiverNewMessage);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiverEditMessage);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiverReadedMessage);
+    }
+
+    private void setAllRecepientChatReaded() {
+        String shrPrfName = getString(R.string.shared_pref_name);
+        SharedPreferences sharedPreferences = getSharedPreferences(shrPrfName, MODE_PRIVATE);
+        int id = sharedPreferences.getInt("id", -1);
+        apiClient.setRoomReaded(id, roomId).enqueue(new Callback<SetRoomReaded>() {
+            @Override
+            public void onResponse(Call<SetRoomReaded> call, Response<SetRoomReaded> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<SetRoomReaded> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void updateChatReaded(int chatId) {
+        apiClient.setChatReaded(chatId).enqueue(new Callback<SetChatReaded>() {
+            @Override
+            public void onResponse(Call<SetChatReaded> call, Response<SetChatReaded> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<SetChatReaded> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private int getIndexChatWhereId(int id) {
+        for (int i = 0; i < chatRowList.size(); i++) {
+            if (chatRowList.get(i).getId() == id) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

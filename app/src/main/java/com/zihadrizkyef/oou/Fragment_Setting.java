@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +66,7 @@ public class Fragment_Setting extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
 
-        apiClient = ApiHelper.getApiClient();
+        apiClient = ApiHelper.getOouApiClient();
         sharedPreferences = getActivity().getSharedPreferences(getString(R.string.shared_pref_name), MODE_PRIVATE);
         shaEditor = sharedPreferences.edit();
 
@@ -107,10 +106,10 @@ public class Fragment_Setting extends Fragment {
     }
 
     public void setUpView(View view) {
-        ivProfilePicture = (ImageView) view.findViewById(R.id.ivPhotoProfile);
+        ivProfilePicture = (ImageView) view.findViewById(R.id.ivPhoto);
         tvName = (TextView) view.findViewById(R.id.tvName);
         tvUsername = (TextView) view.findViewById(R.id.tvUsername);
-        tvBio = (TextView) view.findViewById(R.id.tvBio);
+        tvBio = (TextView) view.findViewById(R.id.tvChat);
 
         ViewTreeObserver observer = tvBio.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -275,7 +274,6 @@ public class Fragment_Setting extends Fragment {
                 new RequestBodyWithProgress.UploadCallbacks() {
                     @Override
                     public void onProgressUpdate(int percentage, String text) {
-                        Log.i("progress " + text, "" + percentage);
                         progressDialog.setProgress(percentage);
                     }
                 },

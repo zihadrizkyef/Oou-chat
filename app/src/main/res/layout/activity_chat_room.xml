@@ -29,10 +29,17 @@
             android:id="@+id/ibTextSend"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:background="#88F"
+            android:background="@color/colorAccent"
+            android:padding="7dp"
             android:scaleType="fitEnd"
-            android:src="@android:drawable/ic_menu_send"/>
+            android:src="@drawable/ic_send_white_48dp"/>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignTop="@id/lyTextInput"
+        android:background="@color/colorDivider"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvChat"

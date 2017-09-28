@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.zihadrizkyef.oou.adapter.ViewPagerAdapter;
 
@@ -21,8 +22,11 @@ import java.util.List;
 public class Activity_Main extends AppCompatActivity {
     List<String> titles;
     List<Fragment> fragments;
+
     private ViewPager mViewPager;
     private Menu menu;
+    private TabLayout tabLayout;
+    private TextView tvBadgeChatRoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +43,7 @@ public class Activity_Main extends AppCompatActivity {
         titles = Arrays.asList(
                 "Contact",
                 "Chat",
-                "Setting"
-        );
+                "Setting");
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
 
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -63,7 +66,7 @@ public class Activity_Main extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {}
         });
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
         View v0 = LayoutInflater.from(this).inflate(R.layout.tablayout_itemview, null);
@@ -73,7 +76,8 @@ public class Activity_Main extends AppCompatActivity {
 
         View v1 = LayoutInflater.from(this).inflate(R.layout.tablayout_itemview, null);
         ((ImageView) v1.findViewById(R.id.ivImage)).setImageResource(R.drawable.ic_chat_bubble_24dp);
-        v1.findViewById(R.id.tvBadge).setVisibility(View.GONE);
+        tvBadgeChatRoom = (TextView) v1.findViewById(R.id.tvBadge);
+        tvBadgeChatRoom.setVisibility(View.GONE);
         tabLayout.getTabAt(1).setCustomView(v1);
 
         View v2 = LayoutInflater.from(this).inflate(R.layout.tablayout_itemview, null);
@@ -103,5 +107,14 @@ public class Activity_Main extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setChatUnread(int unread) {
+        if (unread <= 0) {
+            tvBadgeChatRoom.setVisibility(View.GONE);
+        } else {
+            tvBadgeChatRoom.setVisibility(View.VISIBLE);
+            tvBadgeChatRoom.setText("" + unread);
+        }
     }
 }

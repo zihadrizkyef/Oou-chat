@@ -63,6 +63,12 @@ public class RVAChat extends  RecyclerView.Adapter<RVHChat> {
                     .load(ApiHelper.API_BASE_URL + "/" + chat.getImageUrl())
                     .error(R.drawable.ic_profile_picture)
                     .into(holder.ivPhoto);
+        } else {
+            if (chat.getReaded() == 0) {
+                holder.ivCheck.setVisibility(View.GONE);
+            } else {
+                holder.ivCheck.setVisibility(View.VISIBLE);
+            }
         }
 
         holder.tvText.setText(chat.getMessage());
@@ -82,10 +88,12 @@ public class RVAChat extends  RecyclerView.Adapter<RVHChat> {
 class RVHChat extends RecyclerView.ViewHolder {
     ImageView ivPhoto;
     TextView tvText;
+    ImageView ivCheck;
 
     RVHChat(View itemView) {
         super(itemView);
         ivPhoto = (ImageView) itemView.findViewById(R.id.ivPhoto);
         tvText = (TextView) itemView.findViewById(R.id.tvText);
+        ivCheck = (ImageView) itemView.findViewById(R.id.ivCheck);
     }
 }

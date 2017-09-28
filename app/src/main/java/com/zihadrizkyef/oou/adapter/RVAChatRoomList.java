@@ -3,7 +3,6 @@
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +33,7 @@ public class RVAChatRoomList extends RecyclerView.Adapter<RVHChatRoomList> {
 
      @Override
     public RVHChatRoomList onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.rv_chatlist, parent, false);
+         View v = LayoutInflater.from(context).inflate(R.layout.rv_chatroom, parent, false);
         return new RVHChatRoomList(v);
     }
 
@@ -44,8 +43,14 @@ public class RVAChatRoomList extends RecyclerView.Adapter<RVHChatRoomList> {
 
         holder.tvName.setText(chatRoom.getName());
         holder.tvText.setText(chatRoom.getMessage());
+        int notReaded = chatRoom.getNotReaded();
+        if (notReaded > 0) {
+            holder.tvBadge.setVisibility(View.VISIBLE);
+            holder.tvBadge.setText("" + chatRoom.getNotReaded());
+        } else {
+            holder.tvBadge.setVisibility(View.GONE);
+        }
 
-        Log.i("URL", ApiHelper.API_BASE_URL + chatRoom.getImageUrl());
         Glide.with(context)
                 .load(ApiHelper.API_BASE_URL+chatRoom.getImageUrl())
                 .error(R.drawable.ic_profile_picture)
@@ -76,13 +81,14 @@ public class RVAChatRoomList extends RecyclerView.Adapter<RVHChatRoomList> {
 
 class RVHChatRoomList extends RecyclerView.ViewHolder {
     ImageView ivPhoto;
-    TextView tvName, tvText;
+    TextView tvName, tvText, tvBadge;
 
     RVHChatRoomList(View itemView) {
         super(itemView);
 
         ivPhoto = (ImageView) itemView.findViewById(R.id.ivPhoto);
         tvName = (TextView) itemView.findViewById(R.id.tvName);
-        tvText = (TextView) itemView.findViewById(R.id.tvText);
+        tvText = (TextView) itemView.findViewById(R.id.tvChat);
+        tvBadge = (TextView) itemView.findViewById(R.id.tvBadge);
     }
 }

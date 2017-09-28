@@ -36,7 +36,7 @@ public class Activity_AddFriend extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        apiClient = ApiHelper.getApiClient();
+        apiClient = ApiHelper.getOouApiClient();
 
         String shrPrfName = getString(R.string.shared_pref_name);
         SharedPreferences sharedPreferences = getSharedPreferences(shrPrfName, MODE_PRIVATE);

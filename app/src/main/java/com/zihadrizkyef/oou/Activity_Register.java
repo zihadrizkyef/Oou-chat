@@ -10,7 +10,6 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -45,7 +44,7 @@ public class Activity_Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        apiClient = ApiHelper.getApiClient();
+        apiClient = ApiHelper.getOouApiClient();
 
         pbLoading = (ProgressBar) findViewById(R.id.pbLoading);
         etName = (EditText) findViewById(R.id.etName);
@@ -75,7 +74,6 @@ public class Activity_Register extends AppCompatActivity {
         spnRegister.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Log.i("LOG", "Clicked");
                 Intent intent = new Intent(Activity_Register.this, Activity_Login.class);
                 startActivity(intent);
                 finish();

@@ -46,7 +46,7 @@ public class RVAContactList extends  RecyclerView.Adapter<RVHContactList> {
         this.context = context;
         this.fragment = fragment;
         this.userProfiles = userProfiles;
-        apiClient = ApiHelper.getApiClient();
+        apiClient = ApiHelper.getOouApiClient();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class RVAContactList extends  RecyclerView.Adapter<RVHContactList> {
                 .into(holder.ivPhoto);
 
         holder.tvName.setText(userProfile.getName());
-        holder.tvDetail.setText(userProfile.getBio());
+        holder.tvBio.setText(userProfile.getBio());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +74,7 @@ public class RVAContactList extends  RecyclerView.Adapter<RVHContactList> {
                 alertDialogBuilder.setView(dialogView);
                 final AlertDialog alertDialog = alertDialogBuilder.show();
                 ((TextView) dialogView.findViewById(R.id.tvName)).setText(userProfile.getName());
-                ((TextView) dialogView.findViewById(R.id.tvBio)).setText(userProfile.getBio());
+                ((TextView) dialogView.findViewById(R.id.tvChat)).setText(userProfile.getBio());
                 dialogView.findViewById(R.id.ibChat).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -156,12 +156,12 @@ public class RVAContactList extends  RecyclerView.Adapter<RVHContactList> {
 
 class RVHContactList extends RecyclerView.ViewHolder {
     ImageView ivPhoto;
-    TextView tvName, tvDetail;
+    TextView tvName, tvBio;
 
     RVHContactList(View itemView) {
         super(itemView);
         ivPhoto = (ImageView) itemView.findViewById(R.id.ivPhoto);
         tvName = (TextView) itemView.findViewById(R.id.tvName);
-        tvDetail = (TextView) itemView.findViewById(R.id.tvBio);
+        tvBio = (TextView) itemView.findViewById(R.id.tvBio);
     }
 }

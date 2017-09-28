@@ -1,7 +1,6 @@
 package com.zihadrizkyef.oou;
 
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
@@ -30,20 +29,16 @@ public class Service_FirebaseInstanceID extends FirebaseInstanceIdService {
         String bio = sharedPreferences.getString("bio", null);
         String frbsNotifId = FirebaseInstanceId.getInstance().getToken();
 
-        Log.i("Oou frbs", "new frbs token=" + frbsNotifId);
-
         if (frbsNotifId != null) {
             if (id != -1) {
-                OouApiClient apiClient = ApiHelper.getApiClient();
+                OouApiClient apiClient = ApiHelper.getOouApiClient();
                 apiClient.editProfile(id, name, bio, frbsNotifId).enqueue(new Callback<EditProfile>() {
                     @Override
                     public void onResponse(Call<EditProfile> call, Response<EditProfile> response) {
-                        Log.i("Oou frbs", "frbs token updated");
                     }
 
                     @Override
                     public void onFailure(Call<EditProfile> call, Throwable t) {
-                        Log.i("Oou frbs", "fail to update frbs");
                     }
                 });
             }

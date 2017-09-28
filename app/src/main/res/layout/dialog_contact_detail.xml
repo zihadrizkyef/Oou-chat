@@ -18,10 +18,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+        android:gravity="center"
         android:orientation="vertical"
-        android:gravity="center">
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
 
         <TextView
             android:id="@+id/tvName"
@@ -29,12 +29,12 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textStyle="bold"
+            android:text="Name"
             android:textSize="20sp"
-            android:text="Name"/>
+            android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/tvBio"
+            android:id="@+id/tvChat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Status cooooyyyy"/>
@@ -44,26 +44,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:gravity="center">
+        android:paddingTop="5dp">
 
         <ImageButton
             android:id="@+id/ibChat"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginEnd="13dp"
-            android:tint="#444"
-            android:src="@android:drawable/ic_dialog_email"/>
+            android:src="@android:drawable/ic_dialog_email"
+            android:tint="#444"/>
 
         <ImageButton
             android:id="@+id/ibDelete"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="13dp"
-            android:tint="#000"
-            android:src="@android:drawable/ic_menu_delete"/>
+            android:src="@android:drawable/ic_menu_delete"
+            android:tint="#000"/>
 
     </LinearLayout>
 

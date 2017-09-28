@@ -6,10 +6,13 @@ import com.zihadrizkyef.oou.model.Chat;
 import com.zihadrizkyef.oou.model.ChatRoom;
 import com.zihadrizkyef.oou.model.CreateChatRoom;
 import com.zihadrizkyef.oou.model.DeleteFriend;
+import com.zihadrizkyef.oou.model.EditChat;
 import com.zihadrizkyef.oou.model.EditProfile;
 import com.zihadrizkyef.oou.model.LoginUser;
 import com.zihadrizkyef.oou.model.RegisterUser;
 import com.zihadrizkyef.oou.model.SendChat;
+import com.zihadrizkyef.oou.model.SetChatReaded;
+import com.zihadrizkyef.oou.model.SetRoomReaded;
 import com.zihadrizkyef.oou.model.UserProfile;
 
 import java.util.List;
@@ -113,5 +116,25 @@ public interface OouApiClient {
     Call<ChangeProfilePicture> changeProfilePicture(
             @Part("id") RequestBody id,
             @Part MultipartBody.Part image
+    );
+
+    @FormUrlEncoded
+    @POST("setRoomReaded.php")
+    Call<SetRoomReaded> setRoomReaded(
+            @Field("id") Integer id,
+            @Field("room_id") Integer roomId
+    );
+
+    @FormUrlEncoded
+    @POST("editChat.php")
+    Call<EditChat> editChat(
+            @Field("chat_id") Integer chatId,
+            @Field("message") String message
+    );
+
+    @FormUrlEncoded
+    @POST("setChatReaded.php")
+    Call<SetChatReaded> setChatReaded(
+            @Field("chat_id") Integer chatId
     );
 }

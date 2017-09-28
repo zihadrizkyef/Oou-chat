@@ -22,7 +22,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/ivPhotoProfile"
+        app:layout_constraintLeft_toRightOf="@+id/ivPhoto"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -41,14 +41,14 @@
         app:layout_constraintTop_toTopOf="@+id/tvUsernamePlaceholder"/>
 
     <TextView
-        android:id="@+id/tvBio"
+        android:id="@+id/tvChat"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"
         android:ellipsize="end"
         android:text="@string/lorem_ipsum"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivPhotoProfile"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPhoto"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/tvUsernamePlaceholder"
         app:layout_constraintRight_toRightOf="@+id/tvUsername"
@@ -56,7 +56,7 @@
         app:layout_constraintVertical_bias="1.0"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/ivPhotoProfile"
+        android:id="@+id/ivPhoto"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="8dp"
@@ -125,8 +125,8 @@
         android:layout_marginTop="0dp"
         android:background="@color/colorDivider"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@+id/tvBio"
+        app:layout_constraintLeft_toLeftOf="@+id/tvChat"
         app:layout_constraintRight_toRightOf="@+id/tvName"
-        app:layout_constraintTop_toBottomOf="@id/ivPhotoProfile"/>
+        app:layout_constraintTop_toBottomOf="@id/ivPhoto"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -59,7 +59,7 @@ public class Fragment_ContactList extends Fragment {
         rvContactList.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvContactList.setAdapter(rvaContactList);
 
-        apiClient = ApiHelper.getApiClient();
+        apiClient = ApiHelper.getOouApiClient();
 
         pbLoading = (ProgressBar) rootView.findViewById(R.id.pbLoading);
 

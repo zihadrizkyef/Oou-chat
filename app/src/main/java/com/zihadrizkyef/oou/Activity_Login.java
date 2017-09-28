@@ -11,7 +11,6 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,7 +46,7 @@ public class Activity_Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        apiClient = ApiHelper.getApiClient();
+        apiClient = ApiHelper.getOouApiClient();
 
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
@@ -76,7 +75,6 @@ public class Activity_Login extends AppCompatActivity {
         spnRegister.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Log.i("LOG", "Clicked");
                 Intent intent = new Intent(Activity_Login.this, Activity_Register.class);
                 startActivity(intent);
                 finish();
