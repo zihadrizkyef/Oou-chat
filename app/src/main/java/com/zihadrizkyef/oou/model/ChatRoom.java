@@ -13,8 +13,8 @@ public class ChatRoom {
 	@SerializedName("name")
 	private String name;
 
-    @SerializedName("not_readed")
-    private int notReaded;
+    @SerializedName("unreaded_message")
+    private int unreadedMessage;
 
 	@SerializedName("id")
 	private int id;
@@ -49,12 +49,12 @@ public class ChatRoom {
         this.name = name;
     }
 
-    public int getNotReaded() {
-        return notReaded;
+    public int getUnreadedMessage() {
+        return unreadedMessage;
     }
 
-    public void setNotReaded(int notReaded) {
-        this.notReaded = notReaded;
+    public void setUnreadedMessage(int unreadedMessage) {
+        this.unreadedMessage = unreadedMessage;
     }
 
 	public int getId(){
@@ -88,7 +88,7 @@ public class ChatRoom {
                         "last_activity = '" + lastActivity + '\'' +
                         ",image_url = '" + imageUrl + '\'' +
                         ",name = '" + name + '\'' +
-                        ",not_readed = '" + notReaded + '\'' +
+                        ",unreadedMessage = '" + unreadedMessage + '\'' +
                         ",id = '" + id + '\'' +
                         ",message = '" + message + '\'' +
                         ",is_group = '" + isGroup + '\'' +

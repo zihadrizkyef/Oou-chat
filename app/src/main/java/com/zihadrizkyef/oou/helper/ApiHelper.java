@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class ApiHelper {
-    public static String API_BASE_URL = "http://192.168.100.25/OouAPI/";
+    public static String API_BASE_URL = "https://zihadrizkyef.000webhostapp.com/OouAPI/";
     private static OkHttpClient okHttpClient;
     private static OouApiClient oouApiClient;
 

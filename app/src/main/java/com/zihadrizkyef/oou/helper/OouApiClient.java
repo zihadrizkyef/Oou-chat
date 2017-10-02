@@ -4,6 +4,7 @@ import com.zihadrizkyef.oou.model.AddFriend;
 import com.zihadrizkyef.oou.model.ChangeProfilePicture;
 import com.zihadrizkyef.oou.model.Chat;
 import com.zihadrizkyef.oou.model.ChatRoom;
+import com.zihadrizkyef.oou.model.CountAllUnreaded;
 import com.zihadrizkyef.oou.model.CreateChatRoom;
 import com.zihadrizkyef.oou.model.DeleteFriend;
 import com.zihadrizkyef.oou.model.EditChat;
@@ -136,5 +137,10 @@ public interface OouApiClient {
     @POST("setChatReaded.php")
     Call<SetChatReaded> setChatReaded(
             @Field("chat_id") Integer chatId
+    );
+
+    @GET("countAllUnreaded.php")
+    Call<CountAllUnreaded> countAllUnreaded(
+            @Query("id") Integer id
     );
 }

@@ -21,6 +21,8 @@ import org.json.JSONObject;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import me.leolin.shortcutbadger.ShortcutBadger;
+
 /**
  * بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
  * Created by zihadrizkyef on 01/08/17.
@@ -36,6 +38,8 @@ public class Service_FirebaseMessaging extends FirebaseMessagingService {
         switch (data.get("action")) {
             case "chat_new":
                 try {
+                    ShortcutBadger.applyCount(this, Integer.parseInt(data.get("unreadedMessageCount")));
+
                     JSONObject message = new JSONObject(data.get("msg"));
 
                     if (CustomLifeCycleCallback.isApplicationInForeground()) {
@@ -101,6 +105,7 @@ public class Service_FirebaseMessaging extends FirebaseMessagingService {
 
             case "chat_readed":
                 try {
+//                    ShortcutBadger.applyCount(this, Integer.parseInt(data.get("unreadedMessageCount")));
                     JSONObject message = new JSONObject(data.get("msg"));
                     if (CustomLifeCycleCallback.isApplicationInForeground()) {
                         Intent intent = new Intent(Activity_ChatRoom.BROADCAST_FILTER_READEDMESSAGE);
@@ -114,6 +119,7 @@ public class Service_FirebaseMessaging extends FirebaseMessagingService {
 
 
             case "room_readed":
+//                ShortcutBadger.applyCount(this, Integer.parseInt(data.get("unreadedMessageCount")));
                 if (CustomLifeCycleCallback.isApplicationInForeground()) {
                     Intent intent = new Intent(Activity_ChatRoom.BROADCAST_FILTER_READEDROOM);
                     intent.putExtra("roomId", Integer.parseInt(data.get("room_id")));

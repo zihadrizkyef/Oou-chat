@@ -43,10 +43,10 @@ public class RVAChatRoomList extends RecyclerView.Adapter<RVHChatRoomList> {
 
         holder.tvName.setText(chatRoom.getName());
         holder.tvText.setText(chatRoom.getMessage());
-        int notReaded = chatRoom.getNotReaded();
+        int notReaded = chatRoom.getUnreadedMessage();
         if (notReaded > 0) {
             holder.tvBadge.setVisibility(View.VISIBLE);
-            holder.tvBadge.setText("" + chatRoom.getNotReaded());
+            holder.tvBadge.setText("" + chatRoom.getUnreadedMessage());
         } else {
             holder.tvBadge.setVisibility(View.GONE);
         }
@@ -59,6 +59,7 @@ public class RVAChatRoomList extends RecyclerView.Adapter<RVHChatRoomList> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                chatRoom.setUnreadedMessage(0);
                 Intent intent = new Intent(context, Activity_ChatRoom.class);
                 intent.putExtra("roomId", chatRoom.getId());
                 intent.putExtra("roomName", chatRoom.getName());

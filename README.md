@@ -9,3 +9,6 @@ Simple, just register and add friend you want, then type message you want to pun
 
 # Screen Shoot
 ![ScreenShot 1](https://github.com/zihadrizkyef/Oou-chat/blob/master/screenshoot/img1.png)
+
+# Try it now !
+If you want to try it, then download and install the apk [here](https://github.com/zihadrizkyef/Oou-chat/blob/master/Oou.apk)

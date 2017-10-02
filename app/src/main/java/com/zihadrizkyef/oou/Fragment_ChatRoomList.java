@@ -92,19 +92,24 @@ public class Fragment_ChatRoomList extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 int chatRoomId = intent.getIntExtra("chatRoomId", -1);
                 int indexChatRoom = getIndexChatRoomWhereId(chatRoomId);
-                ChatRoom chatRoom = chatRoomList.get(indexChatRoom);
-                chatRoom.setMessage(intent.getStringExtra("message"));
-                chatRoom.setNotReaded(chatRoom.getNotReaded() + 1);
-                chatRoomList.remove(indexChatRoom);
-                rvaChatRoomList.notifyItemMoved(indexChatRoom, 0);
-                rvaChatRoomList.notifyItemChanged(0);
-                rvChatList.scrollToPosition(0);
+                if (indexChatRoom != -1) {
+                    ChatRoom chatRoom = chatRoomList.get(indexChatRoom);
+                    chatRoom.setMessage(intent.getStringExtra("message"));
+                    chatRoom.setUnreadedMessage(chatRoom.getUnreadedMessage() + 1);
+                    chatRoomList.remove(indexChatRoom);
+                    chatRoomList.add(0, chatRoom);
+                    rvaChatRoomList.notifyItemMoved(indexChatRoom, 0);
+                    rvaChatRoomList.notifyItemChanged(0);
+                    rvChatList.scrollToPosition(0);
 
-                Uri notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                Ringtone rtg = RingtoneManager.getRingtone(getActivity(), notificationSound);
-                rtg.play();
+                    Uri notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    Ringtone rtg = RingtoneManager.getRingtone(getActivity(), notificationSound);
+                    rtg.play();
 
-                updateUnreadToTablayout();
+                    updateUnreadToTablayout();
+                } else {
+                    getChatRoomList();
+                }
             }
         };
     }
@@ -150,7 +155,7 @@ public class Fragment_ChatRoomList extends Fragment {
     private void updateUnreadToTablayout() {
         int manyRoomUnread = 0;
         for (int i = 0; i < chatRoomList.size(); i++) {
-            if (chatRoomList.get(i).getNotReaded() > 0) {
+            if (chatRoomList.get(i).getUnreadedMessage() > 0) {
                 manyRoomUnread++;
             }
         }
