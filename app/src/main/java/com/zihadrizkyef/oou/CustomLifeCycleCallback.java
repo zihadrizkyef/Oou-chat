@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.zihadrizkyef.oou.helper.ApiHelper;
+import com.zihadrizkyef.oou.helper.api.ApiHelper;
 
 import java.io.IOException;
 

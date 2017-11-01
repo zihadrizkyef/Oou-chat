@@ -4,8 +4,8 @@ import android.content.SharedPreferences;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
-import com.zihadrizkyef.oou.helper.ApiHelper;
-import com.zihadrizkyef.oou.helper.OouApiClient;
+import com.zihadrizkyef.oou.helper.api.ApiHelper;
+import com.zihadrizkyef.oou.helper.api.OouApiClient;
 import com.zihadrizkyef.oou.model.EditProfile;
 
 import retrofit2.Call;

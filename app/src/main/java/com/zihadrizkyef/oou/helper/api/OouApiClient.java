@@ -1,4 +1,4 @@
-package com.zihadrizkyef.oou.helper;
+package com.zihadrizkyef.oou.helper.api;
 
 import com.zihadrizkyef.oou.model.AddFriend;
 import com.zihadrizkyef.oou.model.ChangeProfilePicture;
@@ -109,6 +109,7 @@ public interface OouApiClient {
     @GET("chatRowList.php")
     Call<List<Chat>> chatRowList(
             @Query("room_id") Integer roomId,
+            @Query("limit") Integer limit,
             @Query("offset") Integer offset
     );
 

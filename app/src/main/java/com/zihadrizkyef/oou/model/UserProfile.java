@@ -69,9 +69,9 @@ public class UserProfile{
 
 	@Override
  	public String toString(){
-		return 
-			"UserProfile{" + 
-			"imageUrl = '" + imageUrl + '\'' +
+		return
+                "DBUserProfile{" +
+                        "imageUrl = '" + imageUrl + '\'' +
 			",name = '" + name + '\'' + 
 			",bio = '" + bio + '\'' + 
 			",id = '" + id + '\'' + 

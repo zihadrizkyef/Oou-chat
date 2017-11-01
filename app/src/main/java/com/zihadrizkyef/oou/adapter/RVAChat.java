@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zihadrizkyef.oou.R;
-import com.zihadrizkyef.oou.helper.ApiHelper;
+import com.zihadrizkyef.oou.helper.api.ApiHelper;
 import com.zihadrizkyef.oou.model.Chat;
 
 import java.util.List;
@@ -92,8 +92,8 @@ class RVHChat extends RecyclerView.ViewHolder {
 
     RVHChat(View itemView) {
         super(itemView);
-        ivPhoto = (ImageView) itemView.findViewById(R.id.ivPhoto);
-        tvText = (TextView) itemView.findViewById(R.id.tvText);
-        ivCheck = (ImageView) itemView.findViewById(R.id.ivCheck);
+        ivPhoto = itemView.findViewById(R.id.ivPhoto);
+        tvText = itemView.findViewById(R.id.tvText);
+        ivCheck = itemView.findViewById(R.id.ivCheck);
     }
 }

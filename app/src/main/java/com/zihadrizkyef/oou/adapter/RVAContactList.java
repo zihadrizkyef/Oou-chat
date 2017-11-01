@@ -16,9 +16,9 @@ import com.bumptech.glide.Glide;
 import com.zihadrizkyef.oou.Activity_ChatRoom;
 import com.zihadrizkyef.oou.Fragment_ContactList;
 import com.zihadrizkyef.oou.R;
-import com.zihadrizkyef.oou.helper.ApiHelper;
-import com.zihadrizkyef.oou.helper.DatabaseUserProfile;
-import com.zihadrizkyef.oou.helper.OouApiClient;
+import com.zihadrizkyef.oou.helper.api.ApiHelper;
+import com.zihadrizkyef.oou.helper.api.OouApiClient;
+import com.zihadrizkyef.oou.helper.database.DBUserProfile;
 import com.zihadrizkyef.oou.model.CreateChatRoom;
 import com.zihadrizkyef.oou.model.DeleteFriend;
 import com.zihadrizkyef.oou.model.UserProfile;
@@ -122,7 +122,7 @@ public class RVAContactList extends  RecyclerView.Adapter<RVHContactList> {
                                 fragment.showProgress(false);
                                 if (response.isSuccessful()) {
                                     if (response.body().getSuccess()) {
-                                        DatabaseUserProfile db = new DatabaseUserProfile(context);
+                                        DBUserProfile db = new DBUserProfile(context);
                                         db.deleteuserProfile(userProfile);
                                         db.close();
                                         userProfiles.remove(holder.getAdapterPosition());
@@ -160,8 +160,8 @@ class RVHContactList extends RecyclerView.ViewHolder {
 
     RVHContactList(View itemView) {
         super(itemView);
-        ivPhoto = (ImageView) itemView.findViewById(R.id.ivPhoto);
-        tvName = (TextView) itemView.findViewById(R.id.tvName);
-        tvBio = (TextView) itemView.findViewById(R.id.tvBio);
+        ivPhoto = itemView.findViewById(R.id.ivPhoto);
+        tvName = itemView.findViewById(R.id.tvName);
+        tvBio = itemView.findViewById(R.id.tvBio);
     }
 }

@@ -18,10 +18,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.zihadrizkyef.oou.helper.ApiHelper;
-import com.zihadrizkyef.oou.helper.FileUtils;
-import com.zihadrizkyef.oou.helper.OouApiClient;
-import com.zihadrizkyef.oou.helper.RequestBodyWithProgress;
+import com.zihadrizkyef.oou.helper.api.ApiHelper;
+import com.zihadrizkyef.oou.helper.api.OouApiClient;
+import com.zihadrizkyef.oou.helper.api.RequestBodyWithProgress;
+import com.zihadrizkyef.oou.helper.utils.FileUtils;
 import com.zihadrizkyef.oou.model.ChangeProfilePicture;
 import com.zihadrizkyef.oou.model.EditProfile;
 import com.zihadrizkyef.oou.model.UserProfile;
@@ -106,10 +106,10 @@ public class Fragment_Setting extends Fragment {
     }
 
     public void setUpView(View view) {
-        ivProfilePicture = (ImageView) view.findViewById(R.id.ivPhoto);
-        tvName = (TextView) view.findViewById(R.id.tvName);
-        tvUsername = (TextView) view.findViewById(R.id.tvUsername);
-        tvBio = (TextView) view.findViewById(R.id.tvChat);
+        ivProfilePicture = view.findViewById(R.id.ivPhoto);
+        tvName = view.findViewById(R.id.tvName);
+        tvUsername = view.findViewById(R.id.tvUsername);
+        tvBio = view.findViewById(R.id.tvChat);
 
         ViewTreeObserver observer = tvBio.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

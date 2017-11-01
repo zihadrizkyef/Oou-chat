@@ -84,7 +84,7 @@ public class ChatRoom {
 	@Override
  	public String toString(){
 		return
-                "ChatRoom{" +
+                "DBChatRoom{" +
                         "last_activity = '" + lastActivity + '\'' +
                         ",image_url = '" + imageUrl + '\'' +
                         ",name = '" + name + '\'' +

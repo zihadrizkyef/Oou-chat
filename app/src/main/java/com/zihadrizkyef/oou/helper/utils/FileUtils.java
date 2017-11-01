@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.zihadrizkyef.oou.helper;
+package com.zihadrizkyef.oou.helper.utils;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;

@@ -19,8 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.zihadrizkyef.oou.helper.ApiHelper;
-import com.zihadrizkyef.oou.helper.OouApiClient;
+import com.zihadrizkyef.oou.helper.api.ApiHelper;
+import com.zihadrizkyef.oou.helper.api.OouApiClient;
 import com.zihadrizkyef.oou.model.RegisterUser;
 
 import retrofit2.Call;
@@ -46,13 +46,13 @@ public class Activity_Register extends AppCompatActivity {
 
         apiClient = ApiHelper.getOouApiClient();
 
-        pbLoading = (ProgressBar) findViewById(R.id.pbLoading);
-        etName = (EditText) findViewById(R.id.etName);
-        etUsername = (EditText) findViewById(R.id.etUsername);
-        etPassword = (EditText) findViewById(R.id.etPassword);
-        etPasswordConf = (EditText) findViewById(R.id.etPasswordConf);
-        btRegister = (Button) findViewById(R.id.btRegister);
-        tvSignIn = (TextView) findViewById(R.id.tvSignIn);
+        pbLoading = findViewById(R.id.pbLoading);
+        etName = findViewById(R.id.etName);
+        etUsername = findViewById(R.id.etUsername);
+        etPassword = findViewById(R.id.etPassword);
+        etPasswordConf = findViewById(R.id.etPasswordConf);
+        btRegister = findViewById(R.id.btRegister);
+        tvSignIn = findViewById(R.id.tvSignIn);
         vRegisterForm = findViewById(R.id.scRegisterForm);
 
         etPasswordConf.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -71,6 +71,8 @@ public class Activity_Register extends AppCompatActivity {
         });
 
         SpannableString spnRegister = new SpannableString("Already have account? Sign In now");
+        int startLinkChar = spnRegister.toString().indexOf("Sign In");
+        int endLinkChar = startLinkChar + ("Sign In").length();
         spnRegister.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
@@ -83,7 +85,7 @@ public class Activity_Register extends AppCompatActivity {
             public void updateDrawState(TextPaint ds) {
                 super.updateDrawState(ds);
             }
-        }, 22, 26, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }, startLinkChar, endLinkChar, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvSignIn.setText(spnRegister);
         tvSignIn.setMovementMethod(LinkMovementMethod.getInstance());
     }

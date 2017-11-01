@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.zihadrizkyef.oou.Activity_ChatRoom;
 import com.zihadrizkyef.oou.R;
-import com.zihadrizkyef.oou.helper.ApiHelper;
+import com.zihadrizkyef.oou.helper.api.ApiHelper;
 import com.zihadrizkyef.oou.model.ChatRoom;
 
 import java.util.List;
@@ -87,9 +87,9 @@ class RVHChatRoomList extends RecyclerView.ViewHolder {
     RVHChatRoomList(View itemView) {
         super(itemView);
 
-        ivPhoto = (ImageView) itemView.findViewById(R.id.ivPhoto);
-        tvName = (TextView) itemView.findViewById(R.id.tvName);
-        tvText = (TextView) itemView.findViewById(R.id.tvChat);
-        tvBadge = (TextView) itemView.findViewById(R.id.tvBadge);
+        ivPhoto = itemView.findViewById(R.id.ivPhoto);
+        tvName = itemView.findViewById(R.id.tvName);
+        tvText = itemView.findViewById(R.id.tvChat);
+        tvBadge = itemView.findViewById(R.id.tvBadge);
     }
 }

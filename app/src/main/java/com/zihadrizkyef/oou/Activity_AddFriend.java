@@ -12,9 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.zihadrizkyef.oou.helper.ApiHelper;
-import com.zihadrizkyef.oou.helper.DatabaseUserProfile;
-import com.zihadrizkyef.oou.helper.OouApiClient;
+import com.zihadrizkyef.oou.helper.api.ApiHelper;
+import com.zihadrizkyef.oou.helper.api.OouApiClient;
+import com.zihadrizkyef.oou.helper.database.DBUserProfile;
 import com.zihadrizkyef.oou.model.AddFriend;
 import com.zihadrizkyef.oou.model.UserProfile;
 
@@ -42,13 +42,13 @@ public class Activity_AddFriend extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(shrPrfName, MODE_PRIVATE);
         userId = sharedPreferences.getInt("id", -1);
 
-        final LinearLayout lyProfile = (LinearLayout) findViewById(R.id.lyProfile);
-        final CircleImageView civPicture = (CircleImageView) findViewById(R.id.civPicture);
-        final TextView tvName = (TextView) findViewById(R.id.tvName);
-        final TextView tvCantAddFriend = (TextView) findViewById(R.id.tvCantAddFriend);
-        final Button btAddFriend = (Button) findViewById(R.id.btAddFriend);
+        final LinearLayout lyProfile = findViewById(R.id.lyProfile);
+        final CircleImageView civPicture = findViewById(R.id.civPicture);
+        final TextView tvName = findViewById(R.id.tvName);
+        final TextView tvCantAddFriend = findViewById(R.id.tvCantAddFriend);
+        final Button btAddFriend = findViewById(R.id.btAddFriend);
 
-        final SearchView svIDSearch = (SearchView) findViewById(R.id.svIDSearch);
+        final SearchView svIDSearch = findViewById(R.id.svIDSearch);
         svIDSearch.requestFocus();
         svIDSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -100,7 +100,7 @@ public class Activity_AddFriend extends AppCompatActivity {
                     public void onResponse(Call<AddFriend> call, Response<AddFriend> response) {
                         if (response.isSuccessful()) {
                             if (response.body().getSuccess()) {
-                                DatabaseUserProfile db = new DatabaseUserProfile(Activity_AddFriend.this);
+                                DBUserProfile db = new DBUserProfile(Activity_AddFriend.this);
                                 db.addUserProfile(userToAdd);
                                 finish();
                             } else {

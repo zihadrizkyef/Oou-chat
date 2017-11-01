@@ -11,14 +11,15 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.zihadrizkyef.oou.adapter.RVAChat;
-import com.zihadrizkyef.oou.helper.ApiHelper;
-import com.zihadrizkyef.oou.helper.OouApiClient;
+import com.zihadrizkyef.oou.helper.api.ApiHelper;
+import com.zihadrizkyef.oou.helper.api.OouApiClient;
 import com.zihadrizkyef.oou.model.Chat;
 import com.zihadrizkyef.oou.model.SendChat;
 import com.zihadrizkyef.oou.model.SetChatReaded;
@@ -52,6 +53,11 @@ public class Activity_ChatRoom extends AppCompatActivity {
     int roomId;
     String roomName;
 
+    int offsetChat = 0;
+    int limitChatLoad = 30;
+    boolean isloadingChat = false;
+    boolean allChatIsLoaded = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +82,9 @@ public class Activity_ChatRoom extends AppCompatActivity {
         setUpTextInputSendChat();
 
         setAllRecepientChatReaded();
+
+        loadChatFromServer();
+        isloadingChat = true;
     }
 
     @Override
@@ -83,8 +92,6 @@ public class Activity_ChatRoom extends AppCompatActivity {
         super.onResume();
 
         registerBroadcastReceiver();
-
-        loadChatFromServer();
     }
 
     @Override
@@ -95,20 +102,58 @@ public class Activity_ChatRoom extends AppCompatActivity {
     }
 
     private void loadChatFromServer() {
-        Call<List<Chat>> listCall = apiClient.chatRowList(roomId, 0);
+        Call<List<Chat>> listCall = apiClient.chatRowList(roomId, limitChatLoad, offsetChat);
         listCall.enqueue(new Callback<List<Chat>>() {
             @Override
             public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
+                isloadingChat = false;
                 if (response.isSuccessful()) {
+                    List<Chat> chatFromServer = response.body();
                     chatRowList.clear();
-                    chatRowList.addAll(response.body());
+                    chatRowList.addAll(chatFromServer);
                     rvaChat.notifyDataSetChanged();
                     rvChat.scrollToPosition(chatRowList.size() - 1);
+                    offsetChat += chatFromServer.size();
+
+                    Log.i("first offset", "" + offsetChat);
+
+                    if (chatRowList.size() < limitChatLoad) {
+                        allChatIsLoaded = true;
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<List<Chat>> call, Throwable t) {
+                isloadingChat = false;
+                Toast.makeText(Activity_ChatRoom.this, "Server error", Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void loadChatMoreFromServer() {
+        Call<List<Chat>> listCall = apiClient.chatRowList(roomId, limitChatLoad, offsetChat);
+        listCall.enqueue(new Callback<List<Chat>>() {
+            @Override
+            public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
+                isloadingChat = false;
+                if (response.isSuccessful()) {
+                    List<Chat> chatFromServer = response.body();
+                    chatRowList.addAll(0, chatFromServer);
+                    rvaChat.notifyItemRangeInserted(0, chatFromServer.size());
+                    offsetChat += chatFromServer.size();
+                    Log.i("more offset", "" + offsetChat);
+
+                    if (chatFromServer.size() < limitChatLoad) {
+                        allChatIsLoaded = true;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Chat>> call, Throwable t) {
+                isloadingChat = false;
                 Toast.makeText(Activity_ChatRoom.this, "Server error", Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
             }
@@ -116,17 +161,28 @@ public class Activity_ChatRoom extends AppCompatActivity {
     }
 
     private void setUpRecyclerView() {
-        rvChat = (RecyclerView) findViewById(R.id.rvChat);
+        rvChat = findViewById(R.id.rvChat);
         chatRowList = new ArrayList<>();
         final LinearLayoutManager lyManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvaChat = new RVAChat(this, chatRowList);
         rvChat.setLayoutManager(lyManager);
         rvChat.setAdapter(rvaChat);
+        rvChat.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (lyManager.findFirstVisibleItemPosition() == 0 && !isloadingChat) {
+                    loadChatMoreFromServer();
+                    isloadingChat = true;
+                }
+            }
+        });
     }
 
     private void setUpTextInputSendChat() {
-        final EditText etTextInput = (EditText) findViewById(R.id.etTextInput);
-        ImageButton ibTextSend = (ImageButton) findViewById(R.id.ibTextSend);
+        final EditText etTextInput = findViewById(R.id.etTextInput);
+        ImageButton ibTextSend = findViewById(R.id.ibTextSend);
         ibTextSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

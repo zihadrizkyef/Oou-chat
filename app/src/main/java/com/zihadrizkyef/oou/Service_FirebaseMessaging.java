@@ -13,7 +13,7 @@ import android.support.v7.app.NotificationCompat;
 import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.zihadrizkyef.oou.helper.ApiHelper;
+import com.zihadrizkyef.oou.helper.api.ApiHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;

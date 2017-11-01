@@ -1,4 +1,4 @@
-package com.zihadrizkyef.oou.helper;
+package com.zihadrizkyef.oou.helper.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by zihadrizkyef on 05/08/17.
  */
 
-public class DatabaseUserProfile extends SQLiteOpenHelper {
+public class DBUserProfile extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "user";
     private static final String TABLE_NAME = "UserProfileTable";
@@ -28,7 +28,7 @@ public class DatabaseUserProfile extends SQLiteOpenHelper {
     private static final String KEY_IMAGE_URL = "imageurl";
 
 
-    public DatabaseUserProfile(Context context) {
+    public DBUserProfile(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -97,6 +97,7 @@ public class DatabaseUserProfile extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
         }
+
 
         db.close();
         return userProfileList;

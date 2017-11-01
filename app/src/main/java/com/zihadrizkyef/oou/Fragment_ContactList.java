@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.zihadrizkyef.oou.adapter.RVAContactList;
-import com.zihadrizkyef.oou.helper.ApiHelper;
-import com.zihadrizkyef.oou.helper.DatabaseUserProfile;
-import com.zihadrizkyef.oou.helper.OouApiClient;
+import com.zihadrizkyef.oou.helper.api.ApiHelper;
+import com.zihadrizkyef.oou.helper.api.OouApiClient;
+import com.zihadrizkyef.oou.helper.database.DBUserProfile;
 import com.zihadrizkyef.oou.model.UserProfile;
 
 import java.util.Collections;
@@ -50,18 +50,18 @@ public class Fragment_ContactList extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(shrPrfName, MODE_PRIVATE);
         userId = sharedPreferences.getInt("id", -1);
 
-        final DatabaseUserProfile db = new DatabaseUserProfile(getActivity());
+        final DBUserProfile db = new DBUserProfile(getActivity());
         List<UserProfile> userProfiles = db.getAllUserProfiles();
         db.close();
 
         rvaContactList = new RVAContactList(getActivity(), this, userProfiles);
-        rvContactList = (RecyclerView) rootView.findViewById(R.id.rvContactList);
+        rvContactList = rootView.findViewById(R.id.rvContactList);
         rvContactList.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvContactList.setAdapter(rvaContactList);
 
         apiClient = ApiHelper.getOouApiClient();
 
-        pbLoading = (ProgressBar) rootView.findViewById(R.id.pbLoading);
+        pbLoading = rootView.findViewById(R.id.pbLoading);
 
         return rootView;
     }
@@ -71,7 +71,7 @@ public class Fragment_ContactList extends Fragment {
         super.onResume();
 
         showProgress(true);
-        final DatabaseUserProfile db = new DatabaseUserProfile(getActivity());
+        final DBUserProfile db = new DBUserProfile(getActivity());
         apiClient.friendList(userId).enqueue(new Callback<List<UserProfile>>() {
             @Override
             public void onResponse(Call<List<UserProfile>> call, Response<List<UserProfile>> response) {

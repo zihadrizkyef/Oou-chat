@@ -20,8 +20,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.zihadrizkyef.oou.adapter.RVAChatRoomList;
-import com.zihadrizkyef.oou.helper.ApiHelper;
-import com.zihadrizkyef.oou.helper.OouApiClient;
+import com.zihadrizkyef.oou.helper.api.ApiHelper;
+import com.zihadrizkyef.oou.helper.api.OouApiClient;
 import com.zihadrizkyef.oou.model.ChatRoom;
 
 import java.util.ArrayList;
@@ -56,7 +56,7 @@ public class Fragment_ChatRoomList extends Fragment {
         chatRoomList = new ArrayList<>();
 
         rvaChatRoomList = new RVAChatRoomList(getActivity(), chatRoomList);
-        rvChatList = (RecyclerView) rootView.findViewById(R.id.rvChatList);
+        rvChatList = rootView.findViewById(R.id.rvChatList);
         rvChatList.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvChatList.setAdapter(rvaChatRoomList);
 

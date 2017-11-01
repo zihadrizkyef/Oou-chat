@@ -21,8 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.zihadrizkyef.oou.helper.ApiHelper;
-import com.zihadrizkyef.oou.helper.OouApiClient;
+import com.zihadrizkyef.oou.helper.api.ApiHelper;
+import com.zihadrizkyef.oou.helper.api.OouApiClient;
 import com.zihadrizkyef.oou.model.EditProfile;
 import com.zihadrizkyef.oou.model.LoginUser;
 
@@ -48,10 +48,10 @@ public class Activity_Login extends AppCompatActivity {
 
         apiClient = ApiHelper.getOouApiClient();
 
-        etUsername = (EditText) findViewById(R.id.etUsername);
-        etPassword = (EditText) findViewById(R.id.etPassword);
-        tvRegister = (TextView) findViewById(R.id.tvRegister);
-        btSignIn = (Button) findViewById(R.id.btSignIn);
+        etUsername = findViewById(R.id.etUsername);
+        etPassword = findViewById(R.id.etPassword);
+        tvRegister = findViewById(R.id.tvRegister);
+        btSignIn = findViewById(R.id.btSignIn);
 
         etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -72,6 +72,8 @@ public class Activity_Login extends AppCompatActivity {
         });
 
         SpannableString spnRegister = new SpannableString("Don't have account yet? Register now");
+        int startLinkChar = spnRegister.toString().indexOf("Register");
+        int endLinkChar = startLinkChar + ("Register").length();
         spnRegister.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
@@ -84,7 +86,7 @@ public class Activity_Login extends AppCompatActivity {
             public void updateDrawState(TextPaint ds) {
                 super.updateDrawState(ds);
             }
-        }, 24, 32, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }, startLinkChar, endLinkChar, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvRegister.setText(spnRegister);
         tvRegister.setMovementMethod(LinkMovementMethod.getInstance());
 
