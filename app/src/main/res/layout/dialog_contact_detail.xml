@@ -5,7 +5,6 @@
     android:layout_width="220dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-
     tools:ignore="ContentDescription,HardcodedText">
 
     <ImageView
@@ -29,15 +28,20 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Name"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            tools:text="Fulan"/>
 
         <TextView
             android:id="@+id/tvChat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Status cooooyyyy"/>
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            tools:text="ad dunya mataun, wa khairul mataun maratus sholihah wa thaubatan "/>
 
     </LinearLayout>
 

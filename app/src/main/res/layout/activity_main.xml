@@ -6,7 +6,6 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_back1"
     android:fitsSystemWindows="true"
     tools:context="com.zihadrizkyef.oou.Activity_Main">
 

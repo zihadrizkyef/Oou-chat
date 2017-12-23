@@ -44,19 +44,19 @@
         </activity>
         <activity
             android:name=".Activity_Login"
-            android:label="@string/title_activity_login">
-        </activity>
+            android:label="Login"/>
         <activity
             android:name=".Activity_Register"
-            android:label="Register">
-        </activity>
+            android:label="Register"/>
         <activity
             android:name=".Activity_Main"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".Activity_ChatRoom"/>
-        <activity android:name=".Activity_AddFriend"/>
+        <activity
+            android:name=".Activity_AddFriend"
+            android:label="Add Friend"/>
         <activity android:name=".Activity_TextEditor">
         </activity>
     </application>

@@ -14,6 +14,8 @@ import com.zihadrizkyef.oou.R;
 import com.zihadrizkyef.oou.helper.api.ApiHelper;
 import com.zihadrizkyef.oou.model.Chat;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -71,7 +73,14 @@ public class RVAChat extends  RecyclerView.Adapter<RVHChat> {
             }
         }
 
-        holder.tvText.setText(chat.getMessage());
+        String text = chat.getMessage();
+        try {
+            text = URLDecoder.decode(text, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        holder.tvText.setText(text);
+        holder.tvText.setAlpha(1);
     }
 
     @Override

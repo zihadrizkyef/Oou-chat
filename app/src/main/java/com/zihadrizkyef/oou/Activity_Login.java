@@ -11,10 +11,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,6 +26,8 @@ import com.zihadrizkyef.oou.model.LoginUser;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.view.inputmethod.EditorInfo.IME_ACTION_GO;
 
 /**
  * A login screen that offers login via email/password.
@@ -53,23 +52,15 @@ public class Activity_Login extends AppCompatActivity {
         tvRegister = findViewById(R.id.tvRegister);
         btSignIn = findViewById(R.id.btSignIn);
 
-        etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
+        etPassword.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+            if (actionId == IME_ACTION_GO) {
+                attemptLogin();
+                return true;
             }
+            return false;
         });
 
-        btSignIn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+        btSignIn.setOnClickListener(view -> attemptLogin());
 
         SpannableString spnRegister = new SpannableString("Don't have account yet? Register now");
         int startLinkChar = spnRegister.toString().indexOf("Register");

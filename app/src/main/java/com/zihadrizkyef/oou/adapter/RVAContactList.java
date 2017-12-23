@@ -23,6 +23,8 @@ import com.zihadrizkyef.oou.model.CreateChatRoom;
 import com.zihadrizkyef.oou.model.DeleteFriend;
 import com.zihadrizkyef.oou.model.UserProfile;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import retrofit2.Call;
@@ -65,7 +67,16 @@ public class RVAContactList extends  RecyclerView.Adapter<RVHContactList> {
                 .into(holder.ivPhoto);
 
         holder.tvName.setText(userProfile.getName());
-        holder.tvBio.setText(userProfile.getBio());
+
+        String bio = userProfile.getBio();
+        try {
+            bio = URLDecoder.decode(bio, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        holder.tvBio.setText(bio);
+
+        final String finalBio = bio;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +85,7 @@ public class RVAContactList extends  RecyclerView.Adapter<RVHContactList> {
                 alertDialogBuilder.setView(dialogView);
                 final AlertDialog alertDialog = alertDialogBuilder.show();
                 ((TextView) dialogView.findViewById(R.id.tvName)).setText(userProfile.getName());
-                ((TextView) dialogView.findViewById(R.id.tvChat)).setText(userProfile.getBio());
+                ((TextView) dialogView.findViewById(R.id.tvChat)).setText(finalBio);
                 dialogView.findViewById(R.id.ibChat).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

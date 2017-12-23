@@ -33,7 +33,7 @@ public class Activity_Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         fragments = Arrays.asList(
@@ -46,7 +46,7 @@ public class Activity_Main extends AppCompatActivity {
                 "Setting");
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
 
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(viewPagerAdapter);
         mViewPager.setCurrentItem(1);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -66,7 +66,7 @@ public class Activity_Main extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {}
         });
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
         View v0 = LayoutInflater.from(this).inflate(R.layout.tablayout_itemview, null);
@@ -76,7 +76,7 @@ public class Activity_Main extends AppCompatActivity {
 
         View v1 = LayoutInflater.from(this).inflate(R.layout.tablayout_itemview, null);
         ((ImageView) v1.findViewById(R.id.ivImage)).setImageResource(R.drawable.ic_chat_bubble_24dp);
-        tvBadgeChatRoom = (TextView) v1.findViewById(R.id.tvBadge);
+        tvBadgeChatRoom = v1.findViewById(R.id.tvBadge);
         tvBadgeChatRoom.setVisibility(View.GONE);
         tabLayout.getTabAt(1).setCustomView(v1);
 

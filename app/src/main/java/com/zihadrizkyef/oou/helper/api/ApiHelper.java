@@ -1,6 +1,7 @@
 package com.zihadrizkyef.oou.helper.api;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -18,10 +19,10 @@ public class ApiHelper {
         if (oouApiClient != null) {
             return oouApiClient;
         } else {
-            /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();*/
-            okHttpClient = new OkHttpClient();
+            okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+//            okHttpClient = new OkHttpClient();
             Retrofit retrofit = new Retrofit.Builder()
                     .client(okHttpClient)
                     .baseUrl(API_BASE_URL)

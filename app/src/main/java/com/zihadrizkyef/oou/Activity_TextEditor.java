@@ -20,7 +20,7 @@ public class Activity_TextEditor extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        editText = (EditText) findViewById(R.id.editText);
+        editText = findViewById(R.id.editText);
         editText.setText(getIntent().getStringExtra("default"));
     }
 

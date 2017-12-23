@@ -25,6 +25,9 @@ import com.zihadrizkyef.oou.model.SendChat;
 import com.zihadrizkyef.oou.model.SetChatReaded;
 import com.zihadrizkyef.oou.model.SetRoomReaded;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -172,7 +175,7 @@ public class Activity_ChatRoom extends AppCompatActivity {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                if (lyManager.findFirstVisibleItemPosition() == 0 && !isloadingChat) {
+                if (lyManager.findFirstVisibleItemPosition() == 0 && !isloadingChat && !allChatIsLoaded) {
                     loadChatMoreFromServer();
                     isloadingChat = true;
                 }
@@ -187,8 +190,13 @@ public class Activity_ChatRoom extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String text = etTextInput.getText().toString();
+                try {
+                    text = URLEncoder.encode(text, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 if (!text.equals("")) {
-                    chatRowList.add(new Chat(0, text, id, roomId, "", 0, ""));
+                    chatRowList.add(new Chat(0, etTextInput.getText().toString(), id, roomId, "", 0, ""));
                     rvaChat.notifyItemInserted(chatRowList.size() - 1);
                     rvChat.scrollToPosition(chatRowList.size() - 1);
                     etTextInput.setText("");
@@ -200,7 +208,14 @@ public class Activity_ChatRoom extends AppCompatActivity {
                                 SendChat chatFromServer = response.body();
                                 Chat chat = chatRowList.get(chatRowList.size() - 1);
                                 chat.setId(chatFromServer.getId());
-                                chat.setMessage(chatFromServer.getMessage());
+
+                                String text = chatFromServer.getMessage();
+                                try {
+                                    text = URLDecoder.decode(text, "UTF-8");
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
+                                chat.setMessage(text);
                                 chat.setSenderId(chatFromServer.getSenderId());
                                 chat.setChatRoomId(chatFromServer.getChatRoomId());
                                 chat.setCreatedAt(chatFromServer.getCreatedAt());

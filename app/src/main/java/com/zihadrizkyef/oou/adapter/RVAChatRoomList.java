@@ -15,6 +15,8 @@ import com.zihadrizkyef.oou.R;
 import com.zihadrizkyef.oou.helper.api.ApiHelper;
 import com.zihadrizkyef.oou.model.ChatRoom;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
  /**
@@ -42,7 +44,15 @@ public class RVAChatRoomList extends RecyclerView.Adapter<RVHChatRoomList> {
         final ChatRoom chatRoom = chatRooms.get(position);
 
         holder.tvName.setText(chatRoom.getName());
-        holder.tvText.setText(chatRoom.getMessage());
+
+        String text = chatRoom.getMessage();
+        try {
+            text = URLDecoder.decode(text, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        holder.tvText.setText(text);
+
         int notReaded = chatRoom.getUnreadedMessage();
         if (notReaded > 0) {
             holder.tvBadge.setVisibility(View.VISIBLE);

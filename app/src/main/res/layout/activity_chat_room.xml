@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_back1"
+    android:background="#ececec"
     tools:context="com.zihadrizkyef.oou.Activity_ChatRoom"
     tools:ignore="ContentDescription">
 
@@ -15,13 +15,14 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:orientation="horizontal">
+
         <EditText
             android:id="@+id/etTextInput"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:background="#FFF"
-            android:inputType="text|textCapSentences"
+            android:inputType="text|textCapSentences|textMultiLine"
             android:maxHeight="130dp"
             android:padding="8dp"/>
 
@@ -29,10 +30,11 @@
             android:id="@+id/ibTextSend"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:background="@color/colorAccent"
+            android:background="#00000000"
             android:padding="7dp"
             android:scaleType="fitEnd"
-            android:src="@drawable/ic_send_white_48dp"/>
+            android:src="@drawable/ic_send_white_48dp"
+            android:tint="@color/colorAccent"/>
     </LinearLayout>
 
     <View
@@ -45,6 +47,7 @@
         android:id="@+id/rvChat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/lyTextInput"/>
+        android:layout_above="@id/lyTextInput"
+        tools:listitem="@layout/rv_chatrow_self"/>
 
 </RelativeLayout>
