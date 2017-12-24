@@ -103,14 +103,14 @@ public class DBUserProfile extends SQLiteOpenHelper {
         return userProfileList;
     }
 
-    public int getuserProfilesCount() {
+    public int getUserProfilesCount() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME, new String[]{KEY_ID}, null, null, null, null, null);
         db.close();
         return cursor.getCount();
     }
 
-    public void updateuserProfile(int id, UserProfile userProfile) {
+    public void updateUserProfile(int id, UserProfile userProfile) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         ContentValues value = new ContentValues();
@@ -124,9 +124,15 @@ public class DBUserProfile extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteuserProfile(UserProfile userProfile) {
+    public void deleteUserProfile(UserProfile userProfile) {
         SQLiteDatabase db = this.getReadableDatabase();
         db.delete(TABLE_NAME, KEY_ID+"=?", new String[]{String.valueOf(userProfile.getId())});
+        db.close();
+    }
+
+    public void deleteAllUserProfile() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, null, null);
         db.close();
     }
 }

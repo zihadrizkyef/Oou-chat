@@ -1,15 +1,18 @@
 package com.zihadrizkyef.oou;
 
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.zihadrizkyef.oou.adapter.RVAContactList;
 import com.zihadrizkyef.oou.helper.api.ApiHelper;
@@ -40,6 +43,7 @@ public class Fragment_ContactList extends Fragment {
     int userId;
 
     ProgressBar pbLoading;
+    TextView tvContactEmpty;
 
     @Nullable
     @Override
@@ -62,6 +66,9 @@ public class Fragment_ContactList extends Fragment {
         apiClient = ApiHelper.getOouApiClient();
 
         pbLoading = rootView.findViewById(R.id.pbLoading);
+        pbLoading.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
+
+        tvContactEmpty = rootView.findViewById(R.id.tvContactEmpty);
 
         return rootView;
     }
@@ -85,15 +92,17 @@ public class Fragment_ContactList extends Fragment {
                         }
                     });
                     rvaContactList.setUserProfileList(userProfiles);
+
+                    db.deleteAllUserProfile();
                     for (int i = 0; i < userProfiles.size(); i++) {
-                        UserProfile userProfile = userProfiles.get(i);
-                        if (db.getUserProfile(userProfile.getId()) == null) {
-                            db.addUserProfile(userProfile);
-                        } else {
-                            db.updateuserProfile(userProfile.getId(), userProfile);
-                        }
+                        db.addUserProfile(userProfiles.get(i));
                     }
-                    db.close();
+
+                    if (userProfiles.size() <= 0) {
+                        tvContactEmpty.setVisibility(View.VISIBLE);
+                    } else {
+                        tvContactEmpty.setVisibility(View.GONE);
+                    }
                 }
             }
 

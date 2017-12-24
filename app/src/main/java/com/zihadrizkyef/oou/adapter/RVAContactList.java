@@ -77,80 +77,77 @@ public class RVAContactList extends  RecyclerView.Adapter<RVHContactList> {
         holder.tvBio.setText(bio);
 
         final String finalBio = bio;
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                final View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_contact_detail, null);
-                alertDialogBuilder.setView(dialogView);
-                final AlertDialog alertDialog = alertDialogBuilder.show();
-                ((TextView) dialogView.findViewById(R.id.tvName)).setText(userProfile.getName());
-                ((TextView) dialogView.findViewById(R.id.tvChat)).setText(finalBio);
-                dialogView.findViewById(R.id.ibChat).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialog.dismiss();
-                        fragment.showProgress(true);
-                        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.shared_pref_name), MODE_PRIVATE);
-                        int id = sharedPreferences.getInt("id", -1);
-                        apiClient.createChatRoom(id, userProfile.getId(), 0, null).enqueue(new Callback<CreateChatRoom>() {
-                            @Override
-                            public void onResponse(Call<CreateChatRoom> call, Response<CreateChatRoom> response) {
-                                fragment.showProgress(false);
-                                if (response.isSuccessful()) {
-                                    int roomId = response.body().getRoomId();
-                                    Intent intent = new Intent(context, Activity_ChatRoom.class);
-                                    intent.putExtra("roomId", roomId);
-                                    intent.putExtra("roomName", userProfile.getName());
-                                    context.startActivity(intent);
-                                } else {
-                                    Toast.makeText(context, "Server error", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<CreateChatRoom> call, Throwable t) {
+        holder.itemView.setOnClickListener(v -> {
+            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+            final View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_contact_detail, null);
+            alertDialogBuilder.setView(dialogView);
+            final AlertDialog alertDialog = alertDialogBuilder.show();
+            ((TextView) dialogView.findViewById(R.id.tvName)).setText(userProfile.getName());
+            ((TextView) dialogView.findViewById(R.id.tvChat)).setText(finalBio);
+            dialogView.findViewById(R.id.ibChat).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                    fragment.showProgress(true);
+                    SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.shared_pref_name), MODE_PRIVATE);
+                    int id = sharedPreferences.getInt("id", -1);
+                    apiClient.createChatRoom(id, userProfile.getId(), 0, null).enqueue(new Callback<CreateChatRoom>() {
+                        @Override
+                        public void onResponse(Call<CreateChatRoom> call, Response<CreateChatRoom> response) {
+                            fragment.showProgress(false);
+                            if (response.isSuccessful()) {
+                                int roomId = response.body().getRoomId();
+                                Intent intent = new Intent(context, Activity_ChatRoom.class);
+                                intent.putExtra("roomId", roomId);
+                                intent.putExtra("roomName", userProfile.getName());
+                                context.startActivity(intent);
+                            } else {
                                 Toast.makeText(context, "Server error", Toast.LENGTH_SHORT).show();
-                                fragment.showProgress(false);
                             }
-                        });
-                    }
-                });
-                Glide.with(context)
-                        .load(ApiHelper.API_BASE_URL+userProfile.getImageUrl())
-                        .error(R.drawable.ic_profile_picture)
-                        .into((ImageView) dialogView.findViewById(R.id.ivPhoto));
-                dialogView.findViewById(R.id.ibDelete).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialog.dismiss();
-                        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.shared_pref_name), MODE_PRIVATE);
-                        int id = sharedPreferences.getInt("id", -1);
-                        fragment.showProgress(true);
-                        apiClient.deleteFriend(id, userProfile.getId()).enqueue(new Callback<DeleteFriend>() {
-                            @Override
-                            public void onResponse(Call<DeleteFriend> call, Response<DeleteFriend> response) {
-                                fragment.showProgress(false);
-                                if (response.isSuccessful()) {
-                                    if (response.body().getSuccess()) {
-                                        DBUserProfile db = new DBUserProfile(context);
-                                        db.deleteuserProfile(userProfile);
-                                        db.close();
-                                        userProfiles.remove(holder.getAdapterPosition());
-                                        notifyItemRemoved(holder.getAdapterPosition());
-                                    }
+                        }
+
+                        @Override
+                        public void onFailure(Call<CreateChatRoom> call, Throwable t) {
+                            Toast.makeText(context, "Server error", Toast.LENGTH_SHORT).show();
+                            fragment.showProgress(false);
+                        }
+                    });
+                }
+            });
+            Glide.with(context)
+                    .load(ApiHelper.API_BASE_URL + userProfile.getImageUrl())
+                    .error(R.drawable.ic_profile_picture)
+                    .into((ImageView) dialogView.findViewById(R.id.ivPhoto));
+            dialogView.findViewById(R.id.ibDelete).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                    SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.shared_pref_name), MODE_PRIVATE);
+                    int id = sharedPreferences.getInt("id", -1);
+                    fragment.showProgress(true);
+                    apiClient.deleteFriend(id, userProfile.getId()).enqueue(new Callback<DeleteFriend>() {
+                        @Override
+                        public void onResponse(Call<DeleteFriend> call, Response<DeleteFriend> response) {
+                            fragment.showProgress(false);
+                            if (response.isSuccessful()) {
+                                if (response.body().getSuccess()) {
+                                    DBUserProfile db = new DBUserProfile(context);
+                                    db.deleteUserProfile(userProfile);
+                                    db.close();
+                                    userProfiles.remove(holder.getAdapterPosition());
+                                    notifyItemRemoved(holder.getAdapterPosition());
                                 }
                             }
+                        }
 
-                            @Override
-                            public void onFailure(Call<DeleteFriend> call, Throwable t) {
-                                fragment.showProgress(false);
-                                Toast.makeText(context, "Server error,", Toast.LENGTH_SHORT);
-                            }
-                        });
-                    }
-                });
-            }
+                        @Override
+                        public void onFailure(Call<DeleteFriend> call, Throwable t) {
+                            fragment.showProgress(false);
+                            Toast.makeText(context, "Server error,", Toast.LENGTH_SHORT);
+                        }
+                    });
+                }
+            });
         });
     }
 

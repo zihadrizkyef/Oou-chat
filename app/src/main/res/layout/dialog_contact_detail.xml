@@ -11,6 +11,7 @@
         android:id="@+id/ivPhoto"
         android:layout_width="match_parent"
         android:layout_height="250dp"
+        android:background="#555"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_profile_picture"/>
 
@@ -28,20 +29,29 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
+            android:textColor="#333"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:text="Fulan"/>
 
+        <View
+            android:layout_width="70dp"
+            android:layout_height="1px"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:background="#888"/>
+
         <TextView
             android:id="@+id/tvChat"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:paddingBottom="8dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            tools:text="ad dunya mataun, wa khairul mataun maratus sholihah wa thaubatan "/>
+            android:textColor="#555"
+            tools:text="Hello there!"/>
 
     </LinearLayout>
 
@@ -57,17 +67,26 @@
             android:id="@+id/ibChat"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginEnd="13dp"
-            android:src="@android:drawable/ic_dialog_email"
+            android:layout_marginEnd="5dp"
+            android:src="@android:drawable/sym_action_chat"
+            android:tint="#444"/>
+
+        <ImageButton
+            android:id="@+id/ibCall"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:src="@android:drawable/ic_menu_call"
             android:tint="#444"/>
 
         <ImageButton
             android:id="@+id/ibDelete"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginStart="13dp"
+            android:layout_marginStart="5dp"
             android:src="@android:drawable/ic_menu_delete"
-            android:tint="#000"/>
+            android:tint="#444"/>
 
     </LinearLayout>
 

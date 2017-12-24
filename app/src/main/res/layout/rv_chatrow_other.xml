@@ -26,7 +26,7 @@
         android:paddingEnd="12dp"
         android:paddingStart="17dp"
         android:paddingTop="5dp"
-        android:textColor="#515151"
+        android:textColor="#2b2b2b"
         tools:text="Mantap jiewa juga kak"/>
 
 </LinearLayout>

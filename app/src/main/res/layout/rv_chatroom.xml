@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
@@ -12,54 +12,46 @@
         android:id="@+id/ivPhoto"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:src="@drawable/ic_profile_picture"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="0dp"
+        android:layout_width="276dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="Name"
         android:textColor="#555"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintLeft_toRightOf="@+id/ivPhoto"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toEndOf="@+id/ivPhoto"
+        app:layout_constraintTop_toTopOf="@+id/ivPhoto"
+        tools:text="Name"/>
 
     <TextView
         android:id="@+id/tvChat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="chat"
         android:textColor="#515151"
         app:layout_constraintLeft_toLeftOf="@+id/tvName"
         app:layout_constraintRight_toRightOf="@+id/tvName"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        tools:text="chat"/>
 
     <View
         android:id="@+id/vDivider"
         android:layout_width="0dp"
         android:layout_height="1px"
-        android:layout_marginBottom="-1dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:background="@color/colorDivider"
         app:layout_constraintBottom_toBottomOf="@+id/ivPhoto"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/ivPhoto"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/tvName"
+        app:layout_constraintRight_toRightOf="@id/tvName"
         app:layout_constraintTop_toBottomOf="@+id/tvChat"
         app:layout_constraintVertical_bias="1.0"/>
 
@@ -72,11 +64,11 @@
         android:layout_marginTop="0dp"
         android:background="@drawable/xml_circle"
         android:padding="2dp"
-        android:text="0"
         android:textColor="#FFF"
         app:layout_constraintBottom_toBottomOf="@+id/ivPhoto"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ivPhoto"/>
+        app:layout_constraintTop_toTopOf="@+id/ivPhoto"
+        tools:text="3"/>
 
 
 </android.support.constraint.ConstraintLayout>
